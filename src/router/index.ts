@@ -4,6 +4,7 @@ import VueRouter, {RouteConfig} from 'vue-router';
 import Labels from '@/views/Labels.vue';
 import Statistics from '@/views/Statistics.vue';
 import Money from '@/views/Money.vue';
+import NotFound from '@/views/NotFound.vue';
 
 Vue.use(VueRouter);
 
@@ -28,6 +29,12 @@ const routes: Array<RouteConfig> = [
     path: '/statistics',
     component: Statistics
   },
+
+  //router的判断是自上而下的，像if一样，所以最后的是 *，指除了前面的之外
+  {
+    path: '*',
+    component: NotFound
+  }
 
   // {
   //   path: '/',
