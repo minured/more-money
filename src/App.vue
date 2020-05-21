@@ -1,12 +1,14 @@
 <template>
   <div id="app">
 
-<!--把router的内容显示进来-->
+    <!--把router的内容显示进来-->
     <router-view/>
     <hr>
     <div>
-      <router-link to="/labels">标签</router-link> |
-      <router-link to="/money">记账</router-link> |
+      <router-link to="/labels">标签</router-link>
+      |
+      <router-link to="/money">记账</router-link>
+      |
       <router-link to="/statistics">统计</router-link>
 
     </div>
