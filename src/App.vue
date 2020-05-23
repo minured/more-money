@@ -15,4 +15,12 @@
 
   }
 
+  body {
+    line-height: 1.5em;
+  }
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
 </style>
