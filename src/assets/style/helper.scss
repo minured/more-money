@@ -5,3 +5,10 @@ $font-hei: -apple-system, "Noto Sans", "Helvetica Neue", Helvetica, "Nimbus Sans
 
 $color-height-light: orange;
 
+%clearFix {
+  &::after {
+    content: '';
+    clear: both;
+    display: block;
+  }
+}
