@@ -29,6 +29,7 @@
 <style lang="scss" scoped>
   .numberPad {
     font-weight: bold;
+
     > .output {
       font-size: 36px;
       font-family: Consolas, monospace;

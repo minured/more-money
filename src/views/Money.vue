@@ -3,7 +3,7 @@
   <!--使用插槽把 内容 传给Layout组件-->
   <Layout content-class="layout">
     <NumberPad/>
-    <Types/>
+    <Types :prop1="666"/>
     <notes/>
     <Tags/>
   </Layout>
