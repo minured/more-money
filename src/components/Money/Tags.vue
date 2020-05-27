@@ -1,22 +1,54 @@
 <template>
   <div class="tags">
     <div class="new">
-      <button>新增标签</button>
+      <button @click="addTag">新增标签</button>
     </div>
     <ul class="current">
-      <li>衣</li>
-      <li>食</li>
-      <li>住</li>
-      <li>行</li>
+      <li v-for="(tag, index) in tagsData" :key="index"
+
+          :class="{selected: selectedTag.indexOf(tag) >= 0}"
+          @click="toggle(tag)">{{tag}}
+      </li>
+
     </ul>
 
   </div>
 </template>
 
 <script lang="ts">
-  export default {
-    name: 'Tags'
-  };
+  import Vue from 'vue';
+  import {Component, Prop} from 'vue-property-decorator';
+
+  @Component
+  export default class Tags extends Vue {
+    //string[]  字符串数组
+    //tags应该是外面提供的，不要给外面提供的prop赋值，因为re-render的时候回覆盖
+    @Prop(Array) tagsData: string[] | undefined;
+    // tags: string[] = ['衣', '食', '住', '行'];
+    selectedTag: string[] = [];
+
+    addTag() {
+      const inputTag = window.prompt('请输入自定义标签：');
+      if (inputTag != null && this.tagsData != undefined && inputTag != '') {
+        this.tagsData.push(inputTag);
+        console.log(this.tagsData);
+      } else {
+        console.log('ll');
+      }
+
+    }
+
+    toggle(tag: string) {
+      const index = this.selectedTag.indexOf(tag);
+      if (index === -1) {
+        this.selectedTag.push(tag);
+      } else {
+        this.selectedTag.splice(index, 1);
+      }
+      console.log(this.selectedTag);
+    }
+
+  }
 </script>
 
 <style lang="scss" scoped>
@@ -42,7 +74,13 @@
         border-radius: 12px;
         text-align: center;
         background-color: #d9d9d9;
+
+        &.selected {
+          background: orange;;
+        }
       }
+
+
     }
 
     > .new {

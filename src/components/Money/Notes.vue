@@ -1,9 +1,9 @@
 <template>
   <label class="notes">
-    {{notes}}
+    {{value}}
     <span class="name">备注</span>
 <!--    这里老师用的是input事件-->
-    <input v-model="notes" type="text" placeholder="在这里输入备注">
+    <input v-model="value" type="text" placeholder="在这里输入备注">
   </label>
 </template>
 
@@ -13,9 +13,9 @@
 
   @Component
   export default class Notes extends Vue {
-    notes = "";
+    value = "";
     updated(){
-      console.log(this.notes);
+      console.log(this.value);
     }
   }
 </script>
