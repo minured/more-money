@@ -5,7 +5,7 @@
     <NumberPad/>
     <Types/>
     <notes/>
-    <Tags :tagsData="tags"/>
+    <Tags :tagsData.sync="tags"/>
 
   </Layout>
 

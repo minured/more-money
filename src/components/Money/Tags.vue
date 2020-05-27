@@ -23,18 +23,22 @@
   export default class Tags extends Vue {
     //string[]  字符串数组
     //tags应该是外面提供的，不要给外面提供的prop赋值，因为re-render的时候回覆盖
-    @Prop(Array) tagsData: string[] | undefined;
+    @Prop(Array) readonly tagsData: string[] | undefined;
     // tags: string[] = ['衣', '食', '住', '行'];
     selectedTag: string[] = [];
 
     addTag() {
       const inputTag = window.prompt('请输入自定义标签：');
-      if (inputTag != null && this.tagsData != undefined && inputTag != '') {
-        this.tagsData.push(inputTag);
-        console.log(this.tagsData);
-      } else {
-        console.log('ll');
-      }
+      if (inputTag === '') {
+        window.alert('标签名不能为空');
+      } else if (this.tagsData && this.tagsData.indexOf(inputTag!) === -1) {
+
+          //不应该改外部数据， 语法合法但是不推荐
+          this.$emit('update:tagsData', [...this.tagsData, inputTag]);
+        }
+
+
+
 
     }
 
@@ -63,6 +67,7 @@
     > .current {
       /*border: 1px solid black;*/
       display: flex;
+      flex-wrap: wrap;
 
       > li {
         /*border: 1px solid black;*/
