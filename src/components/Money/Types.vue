@@ -44,7 +44,7 @@
     }
   //  钩子函数也是直接写
     mounted(){
-      console.log(this.prop1);
+      // console.log(this.prop1);
     }
 
   }
