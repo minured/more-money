@@ -18,19 +18,13 @@
   import Types from '@/components/Money/Types.vue';
   import Notes from '@/components/Money/Notes.vue';
   import Tags from '@/components/Money/Tags.vue';
+  import {model} from '@/model';
 
-  //ts声明一个类型
-  type Record = {
-    //加个问号，表示这个key可以不存在
-    selectedTags?: string[];
-    notes: string;
-    type: string;
-    amount: number;
-    //除了写数据类型，还可以写类 class或者构造函数
-    date?: Date;
-  }
 
-  const localRecords: Record[] = JSON.parse(window.localStorage.getItem('records') || '[]');
+
+
+
+  const localRecords = model.fetch();
   //数据库版本 ，用来升级数据库
   //版本判断升级
   const version = window.localStorage.getItem('version') || 0;
@@ -50,7 +44,7 @@
   export default class Money extends Vue {
     tags: string[] = ['衣', '食', '住', '行'];
 
-    record: Record = {
+    record: RecordItem = {
       selectedTags: [],
       notes: '',
       type: '-',
@@ -58,19 +52,21 @@
       date: new Date()
     };
 
-    records: Record[] = localRecords
+    records: RecordItem[] = localRecords;
+
     saveRecord() {
       this.record.date = new Date();
       //这里push的是一个引用，所以每次push应该创建一个新的对象
       //用JSON实现深拷贝
-      const deepClone: Record = JSON.parse(JSON.stringify(this.record));
+      const deepClone = model.clone(this.record)
       this.records.push(deepClone);
-      console.log(this.records)
+      console.log(this.records);
     }
+
     //用watch  避免漏保存
     @Watch('records')
     onRecordsChange() {
-      window.localStorage.setItem('records', JSON.stringify(this.records));
+      model.save(this.records)
     }
 
   }
