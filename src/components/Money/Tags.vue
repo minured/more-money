@@ -5,8 +5,7 @@
     </div>
     <ul class="current">
       <li v-for="(tag, index) in tagsData" :key="index"
-
-          :class="{selected: selectedTag.indexOf(tag) >= 0}"
+          :class="{selected: selectedTags_.indexOf(tag) >= 0}"
           @click="toggle(tag)">{{tag}}
       </li>
 
@@ -24,32 +23,36 @@
     //string[]  字符串数组
     //tags应该是外面提供的，不要给外面提供的prop赋值，因为re-render的时候回覆盖
     @Prop(Array) readonly tagsData: string[] | undefined;
-    // tags: string[] = ['衣', '食', '住', '行'];
-    selectedTag: string[] = [];
+    @Prop(Array) readonly selectedTags!: string[];
+
+    //为了避免直接修改props， selectedTags_是本地化的数据
+
+    selectedTags_ = this.selectedTags;
+
 
     addTag() {
       const inputTag = window.prompt('请输入自定义标签：');
-      if (inputTag === '') {
-        window.alert('标签名不能为空');
-      } else if (this.tagsData && this.tagsData.indexOf(inputTag!) === -1) {
-
+      if (inputTag) {
+        if (inputTag.trim() === '') {
+          window.alert('标签名不能为空');
+        } else if (this.tagsData && this.tagsData.indexOf(inputTag!) === -1) {
           //不应该改外部数据， 语法合法但是不推荐
           this.$emit('update:tagsData', [...this.tagsData, inputTag]);
         }
-
-
+      }
 
 
     }
 
     toggle(tag: string) {
-      const index = this.selectedTag.indexOf(tag);
+      const index = this.selectedTags_.indexOf(tag);
       if (index === -1) {
-        this.selectedTag.push(tag);
+        this.selectedTags_.push(tag);
       } else {
-        this.selectedTag.splice(index, 1);
+        this.selectedTags_.splice(index, 1);
       }
-      console.log(this.selectedTag);
+      //  触发更新选择标签
+      this.$emit('update:selectedTags', this.selectedTags_);
     }
 
   }

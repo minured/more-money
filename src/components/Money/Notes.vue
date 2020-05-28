@@ -1,21 +1,24 @@
 <template>
   <label class="notes">
-    {{value}}
     <span class="name">备注</span>
-<!--    这里老师用的是input事件-->
+    <!--    这里老师用的是input事件-->
     <input v-model="value" type="text" placeholder="在这里输入备注">
   </label>
 </template>
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component} from 'vue-property-decorator';
+  import {Component, Watch, Prop} from 'vue-property-decorator';
 
   @Component
   export default class Notes extends Vue {
-    value = "";
-    updated(){
-      console.log(this.value);
+    @Prop(String) notes!: string
+    value = this.notes;
+    //  使用watch监听value的变化
+    //  immediate false  第一次不要触发
+    @Watch('value', {immediate: false})
+    onValueChange() {
+      this.$emit('update:notes', this.value);
     }
   }
 </script>

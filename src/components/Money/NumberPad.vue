@@ -23,12 +23,13 @@
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component} from 'vue-property-decorator';
+  import {Component, Prop} from 'vue-property-decorator';
 
   @Component
   export default class NumberPad extends Vue {
     //有初始值""  ts知道是字符串，不用写:string也可以
-    output = '0';
+    @Prop(Number) amount!: number
+    output = this.amount.toString()
 
     //Vue默认会传一个event
     inputContent(event: MouseEvent) {
@@ -74,10 +75,12 @@
     }
 
     ok() {
-      this.output = "已提交"
-      setTimeout(()=>{
-        this.output = "0"
-      },200)
+      if (this.output === "0") {
+        return
+      }
+      // this.$emit('updateAmount', this.amount);
+      this.$emit("update:amount", parseFloat(this.output))
+      this.output = '0';
 
     }
 

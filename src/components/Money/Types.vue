@@ -7,7 +7,7 @@
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component, Prop} from 'vue-property-decorator';
+  import {Component, Prop, Watch} from 'vue-property-decorator';
 
 
   //这个库是第三方库
@@ -19,7 +19,11 @@
   //vue就会按照component的语法编译以下代码
   export default class Types extends Vue {
     //直接写就会成data
-    type = '-';
+    // type = '-';
+
+    //加感叹号是 排除undefined 和 null
+    //如果外面没有传，就设置一个默认值
+    @Prop({default: "-"}) readonly type!: string
 
     //声明一个props
     //所有从：开头的都是typescript新加的语法
@@ -34,19 +38,12 @@
     @Prop(Number) prop1: number | undefined;
 
     //typescript的类型 :string  变量的类型
-    selectType(type: string) {
-      if (type !== '-' && type !== '+') {
+    selectType(typeArg: string) {
+      if (typeArg !== '-' && typeArg !== '+') {
         throw new Error('type is unknown');
       }
-      this.type = type;
-
-
+      this.$emit("update:type", typeArg)
     }
-  //  钩子函数也是直接写
-    mounted(){
-      // console.log(this.prop1);
-    }
-
   }
 
 </script>
