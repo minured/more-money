@@ -19,9 +19,6 @@
   import Notes from '@/components/Money/Notes.vue';
   import Tags from '@/components/Money/Tags.vue';
 
-  //数据库版本 ，用来升级数据库
-  window.localStorage.setItem("version", "0.0.1")
-
   //ts声明一个类型
   type Record = {
     //加个问号，表示这个key可以不存在
@@ -32,6 +29,19 @@
     //除了写数据类型，还可以写类 class或者构造函数
     date?: Date;
   }
+
+  const records: Record[] = JSON.parse(window.localStorage.getItem('records') || '[]');
+  //数据库版本 ，用来升级数据库
+  //版本判断升级
+  const version = window.localStorage.getItem('version') || 0;
+  if (version === '0.0.1') {
+    records.forEach(record => {
+      record.date = new Date(0);
+    });
+    window.localStorage.setItem('records', JSON.stringify(records));
+
+  }
+  window.localStorage.setItem('version', '0.0.2');
 
 
   @Component({
@@ -47,14 +57,14 @@
       amount: 0,
       date: new Date()
     };
-    records: Record[] = JSON.parse(window.localStorage.getItem('records') || '[]');
+
 
     saveRecord() {
-      this.record.date = new Date()
+      this.record.date = new Date();
       //这里push的是一个引用，所以每次push应该创建一个新的对象
       //用JSON实现深拷贝
       const deepClone: Record = JSON.parse(JSON.stringify(this.record));
-      this.records.push(deepClone);
+      records.push(deepClone);
     }
 
     //用watch  避免漏保存
@@ -62,7 +72,6 @@
     onRecordsChange() {
       window.localStorage.setItem('records', JSON.stringify(this.records));
     }
-
 
   }
 
