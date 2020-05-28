@@ -28,8 +28,8 @@
   @Component
   export default class NumberPad extends Vue {
     //有初始值""  ts知道是字符串，不用写:string也可以
-    @Prop(Number) amount!: number
-    output = this.amount.toString()
+    @Prop(Number) amount!: number;
+    output = this.amount.toString();
 
     //Vue默认会传一个event
     inputContent(event: MouseEvent) {
@@ -75,12 +75,16 @@
     }
 
     ok() {
-      if (this.output === "0") {
-        return
+      if (this.output === '0') {
+        return;
       }
       // this.$emit('updateAmount', this.amount);
-      this.$emit("update:amount", parseFloat(this.output))
+      this.$emit('update:amount', parseFloat(this.output));
+
+      //触发保存事件
+      this.$emit("submit")
       this.output = '0';
+
 
     }
 

@@ -12,7 +12,7 @@
 
   @Component
   export default class Notes extends Vue {
-    @Prop(String) notes!: string
+    @Prop(String) notes!: string;
     value = this.notes;
     //  使用watch监听value的变化
     //  immediate false  第一次不要触发

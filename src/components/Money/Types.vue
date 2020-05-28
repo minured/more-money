@@ -23,7 +23,7 @@
 
     //加感叹号是 排除undefined 和 null
     //如果外面没有传，就设置一个默认值
-    @Prop({default: "-"}) readonly type!: string
+    @Prop({default: '-'}) readonly type!: string;
 
     //声明一个props
     //所有从：开头的都是typescript新加的语法
@@ -42,7 +42,7 @@
       if (typeArg !== '-' && typeArg !== '+') {
         throw new Error('type is unknown');
       }
-      this.$emit("update:type", typeArg)
+      this.$emit('update:type', typeArg);
     }
   }
 
