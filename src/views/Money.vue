@@ -18,13 +18,14 @@
   import Types from '@/components/Money/Types.vue';
   import Notes from '@/components/Money/Notes.vue';
   import Tags from '@/components/Money/Tags.vue';
-  import {model} from '@/model';
+  import {recordList} from '@/models/recordList';
+  import tagList from '@/models/tagList';
 
 
 
 
 
-  const localRecords = model.fetch();
+  const localRecords = recordList.fetch();
   //数据库版本 ，用来升级数据库
   //版本判断升级
   const version = window.localStorage.getItem('version') || 0;
@@ -42,7 +43,7 @@
     components: {Tags, Notes, Types, NumberPad},
   })
   export default class Money extends Vue {
-    tags: string[] = ['衣', '食', '住', '行'];
+    tags = tagList.fetch()
 
     record: RecordItem = {
       selectedTags: [],
@@ -58,7 +59,7 @@
       this.record.date = new Date();
       //这里push的是一个引用，所以每次push应该创建一个新的对象
       //用JSON实现深拷贝
-      const deepClone = model.clone(this.record)
+      const deepClone = recordList.clone(this.record)
       this.records.push(deepClone);
       console.log(this.records);
     }
@@ -66,7 +67,12 @@
     //用watch  避免漏保存
     @Watch('records')
     onRecordsChange() {
-      model.save(this.records)
+      console.log("变化")
+      recordList.save(this.records)
+    }
+    @Watch("tags")
+    onTagsChange(){
+      console.log(this.tags)
     }
 
   }
