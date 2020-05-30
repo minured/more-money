@@ -1,8 +1,8 @@
 <template>
   <label class="notes">
-    <span class="name">备注</span>
+    <span class="name">{{fieldName}}</span>
     <!--    这里老师用的是input事件-->
-    <input v-model="value" type="text" placeholder="在这里输入备注">
+    <input v-model="value" type="text" :placeholder="placeholder">
   </label>
 </template>
 
@@ -13,6 +13,9 @@
   @Component
   export default class Notes extends Vue {
     @Prop(String) notes!: string;
+    @Prop(String) fieldName!: string;
+    @Prop(String) placeholder: string;
+
     value = this.notes;
     //  使用watch监听value的变化
     //  immediate false  第一次不要触发
