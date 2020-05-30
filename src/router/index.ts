@@ -32,7 +32,7 @@ const routes: Array<RouteConfig> = [
     component: Statistics
   },
   {
-    path: '/labels/edit',
+    path: '/labels/edit/:id',  //:id占位，this.$route.params 得到 {id: xxx}
     component: EditLabel
   },
 
