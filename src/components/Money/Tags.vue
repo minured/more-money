@@ -6,7 +6,7 @@
     <ul class="current">
       <li v-for="(tag, index) in tagsData" :key="index"
           :class="{selected: selectedTags_.indexOf(tag) >= 0}"
-          @click="toggle(tag)">{{tag}}
+          @click="toggle(tag)">{{tag.name}}
       </li>
 
     </ul>
@@ -46,7 +46,8 @@
       //   window.alert('标签名不能为空');
       // }
 
-      tagList.create()
+      const message: ErrorTip = tagList.create()
+      window.alert(`${message.errorCode}：${message.explain}`)
     }
 
     toggle(tag: string) {
@@ -81,6 +82,7 @@
         /*border: 1px solid black;*/
         /*display: block;*/
         margin-right: 16px;
+        margin-bottom: 12px;
         height: 24px;
         line-height: 24px;
         padding: 0 16px;

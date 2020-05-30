@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <ol v-for="(tag, index) in tags" :key="index" class="tags">
-      <li><span>{{tag}}</span>
+      <li><span>{{tag.name}}</span>
         <Icon icon-id="#right"></Icon>
       </li>
     </ol>
@@ -34,7 +34,8 @@
 
     createTag() {
 
-      tagList.create();
+      const message = tagList.create();
+      window.alert(`${message.errorCode}：${message.explain}`)
 
 
     }

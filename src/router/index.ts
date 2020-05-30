@@ -5,10 +5,12 @@ import Labels from '@/views/Labels.vue';
 import Statistics from '@/views/Statistics.vue';
 import Money from '@/views/Money.vue';
 import NotFound from '@/views/NotFound.vue';
+import EditLabel from '@/views/EditLabel.vue';
 
 Vue.use(VueRouter);
 
 //一般只改这部分，其他默认
+
 const routes: Array<RouteConfig> = [
 
   //如果是根路径就重定向到 /money
@@ -28,6 +30,10 @@ const routes: Array<RouteConfig> = [
   {
     path: '/statistics',
     component: Statistics
+  },
+  {
+    path: '/labels/edit',
+    component: EditLabel
   },
 
   //router的判断是自上而下的，像if一样，所以最后的是 *，指除了前面的之外

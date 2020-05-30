@@ -8,3 +8,7 @@ type RecordItem = {
   //除了写数据类型，还可以写类 class或者构造函数
   date?: Date;
 }
+type ErrorTip = {
+  errorCode: number;
+  explain: string;
+}
