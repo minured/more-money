@@ -1,48 +1,62 @@
 <template>
   <Layout>
+
+    {{tag}}
     <div class="navBar">
-      <Icon icon-id="#left"/>
+      <Icon icon-id="#left" @click="goBack"/>
       <span>编辑标签</span>
     </div>
     <div class="form-wrapper">
-      <form-item field-name="标签名" :placeholder="tagId"/>
+      <form-item field-name="标签名" :notes="tag.name" @update:notes="onUpdateValue"/>
     </div>
     <div class="remove">
-      <Button>删除标签</Button>
+      <Button @click.native="removeTag">删除标签</Button>
     </div>
   </Layout>
 </template>
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component} from 'vue-property-decorator';
+  import {Component, Watch} from 'vue-property-decorator';
   import tagList from '@/models/tagList';
   import Icon from '@/components/Icon.vue';
   import formItem from '@/components/Money/formItem.vue';
   import Button from '@/components/Button.vue';
 
+  tagList.fetch()
+
   @Component({
     components: {Button, formItem, Icon}
   })
   export default class EditLabel extends Vue {
-    tagId = '';
+    tag: Tag = {id: "", name: ""};
+    originTag = '';
 
-    //好好理解一下 route和router的用法
-    created() {
-      this.tagId = this.$route.params.id;
-      tagList.fetch();
-      const tags = tagList.tags;
-      //filter返回数组
-      const tag = tags.filter(tag => tag.id === this.tagId)[0];
-      if (tag) {
-        console.log(tag);
+    created(){
+      //页面urlId是否存在 tags中
+      const urlId = this.$route.params.id
+      const tags = tagList.tags
+      const tag = tags.filter(tag => tag.id === urlId)[0]
+      if(tag){
+        this.tag = tag
+        console.log(this.tag)
       } else {
-        //  重定向
-        //为什么要回车两次？
-        //replace和push区别   初步：replace可以回退，push不行
-        this.$router.replace('/404');
+        this.$router.replace("/404")
       }
     }
+
+    onUpdateValue(name: string){
+      tagList.update(this.tag.id, name)
+    }
+
+    removeTag(){
+      console.log(tagList.remove(this.tag))
+      this.$router.replace("/labels")
+    }
+    goBack(){
+      this.$router.back()
+    }
+
   }
 </script>
 

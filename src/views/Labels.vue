@@ -30,14 +30,18 @@
 
   tagList.fetch();
 
+
   @Component({
     components: {Button, Icon}
   })
   export default class Labels extends Vue {
+    // beforeCreate(){
+    //   console.log("之前")
+    //   this.tags = tagList.tags
+    // }
     tags = tagList.tags;
 
     createTag() {
-
       const message = tagList.create();
       window.alert(`${message.errorCode}：${message.explain}`);
 

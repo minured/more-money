@@ -60,13 +60,12 @@
       //用JSON实现深拷贝
       const deepClone = recordList.clone(this.record);
       this.records.push(deepClone);
-      console.log(this.records);
+
     }
 
     //用watch  避免漏保存
     @Watch('records')
     onRecordsChange() {
-      console.log('变化');
       recordList.save(this.records);
     }
 

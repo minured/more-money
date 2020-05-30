@@ -12,3 +12,9 @@ type ErrorTip = {
   errorCode: number;
   explain: string;
 }
+
+type Tag = {
+  //这里暂时把tagName 作为id，以后写一个id生成器
+  id: string;
+  name: string;
+}

@@ -1,14 +1,12 @@
 //注意函数的参数和返回值的类型写法
-type Tag = {
-  //这里暂时把tagName 作为id，以后写一个id生成器
-  id: string;
-  name: string;
-}
+
 type TagList = {
   tags: Tag[];
   fetch: () => Tag[];
   save: () => void;
   create: () => ErrorTip;
+  update: (oldName: string, newName: string) => ErrorTip;
+  remove: (tag: Tag) => ErrorTip;
 }
 
 
@@ -51,10 +49,10 @@ const tagList: TagList = {
       }
 
       //map返回符合条件的元素作为新数组
-      const tagNames: string[] = this.tags.map(tag => tag.name)
+      const tagNames: string[] = this.tags.map(tag => tag.name);
 
       if (tagNames.indexOf(inputTag) === -1) {
-        this.tags.push({id:inputTag, name: inputTag});
+        this.tags.push({id: inputTag, name: inputTag});
         this.save();
         return {errorCode: 0, explain: '标签创建成功！'};
       } else {
@@ -66,6 +64,44 @@ const tagList: TagList = {
       return {errorCode: 1, explain: '标签名不能为空！'};
     }
     return {errorCode: 3, explain: '取消创建'};
+  },
+  update(id, name){
+    const tagIds: string[] = this.tags.map(tag => tag.id)
+
+    if (tagIds.indexOf(id) >= 0) {
+      console.log("fuck")
+
+      const tagNames = this.tags.map(tag => tag.name)
+      if (tagNames.indexOf(name) >=0) {
+        console.log(tagNames)
+        console.log(name)
+        return {errorCode: 1, explain: "重复"}
+      } else {
+        const tag = this.tags.filter(i => i.id===id)[0]
+        tag.name = name
+        tag.id = name
+        console.log(this.tags)
+        this.save()
+        return {errorCode: 0, explain: "修改成功"}
+      }
+
+    } else {
+      return {errorCode: 4, explain: "not_found"}
+    }
+
+
+  },
+  remove(tag){
+    const index = this.tags.indexOf(tag)
+    if(index >= 0) {
+      this.tags.splice(index, 1)
+      console.log(this.tags)
+      this.save()
+      return {errorCode: 0, explain: "成功"}
+
+    } else {
+      return {errorCode: 4, explain: "not_found"}
+    }
   }
 
 
