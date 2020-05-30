@@ -1,5 +1,5 @@
 <template>
-  <label class="notes">
+  <label class="formItem">
     <span class="name">{{fieldName}}</span>
     <!--    这里老师用的是input事件-->
     <input v-model="value" type="text" :placeholder="placeholder">
@@ -14,7 +14,7 @@
   export default class Notes extends Vue {
     @Prop(String) notes!: string;
     @Prop(String) fieldName!: string;
-    @Prop(String) placeholder: string;
+    @Prop(String) placeholder?: string;
 
     value = this.notes;
     //  使用watch监听value的变化
@@ -27,9 +27,8 @@
 </script>
 
 <style lang="scss" scoped>
-  .notes {
+  .formItem {
     font-size: 14px;
-    background-color: #f5f5f5;
     padding-left: 16px;
     display: flex;
     align-items: center;
@@ -37,11 +36,10 @@
     .name {
       padding-right: 16px;
 
-
     }
 
     input {
-      height: 64px;
+      height: 40px;
       flex-grow: 1;
       background-color: transparent;
       border: none;

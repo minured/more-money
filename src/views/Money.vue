@@ -4,7 +4,9 @@
   <Layout content-class="layout">
     <NumberPad :amount.sync="record.amount" @submit="saveRecord"/>
     <Types :type.sync="record.type"/>
-    <Notes :notes.sync="record.notes" field-name="备注" placeholder="在这里输入备注"/>
+    <div class="notes">
+      <form-item :notes.sync="record.notes" field-name="备注" placeholder="在这里输入备注"/>
+    </div>
     <Tags :tagsData.sync="tags" :selectedTags.sync="record.selectedTags"/>
     {{ record }}
   </Layout>
@@ -16,13 +18,10 @@
   import {Component, Watch} from 'vue-property-decorator';
   import NumberPad from '@/components/Money/NumberPad.vue';
   import Types from '@/components/Money/Types.vue';
-  import Notes from '@/components/Money/Notes.vue';
+  import formItem from '@/components/Money/formItem.vue';
   import Tags from '@/components/Money/Tags.vue';
   import {recordList} from '@/models/recordList';
   import tagList from '@/models/tagList';
-
-
-
 
 
   const localRecords = recordList.fetch();
@@ -40,10 +39,10 @@
 
   //使用的时候，要注意，下面是Vue里面，要注意this，上面是外面
   @Component({
-    components: {Tags, Notes, Types, NumberPad},
+    components: {Tags, formItem, Types, NumberPad},
   })
   export default class Money extends Vue {
-    tags = tagList.fetch()
+    tags = tagList.fetch();
 
     record: RecordItem = {
       selectedTags: [],
@@ -59,7 +58,7 @@
       this.record.date = new Date();
       //这里push的是一个引用，所以每次push应该创建一个新的对象
       //用JSON实现深拷贝
-      const deepClone = recordList.clone(this.record)
+      const deepClone = recordList.clone(this.record);
       this.records.push(deepClone);
       console.log(this.records);
     }
@@ -67,12 +66,13 @@
     //用watch  避免漏保存
     @Watch('records')
     onRecordsChange() {
-      console.log("变化")
-      recordList.save(this.records)
+      console.log('变化');
+      recordList.save(this.records);
     }
-    @Watch("tags")
-    onTagsChange(){
-      console.log(this.tags)
+
+    @Watch('tags')
+    onTagsChange() {
+      console.log(this.tags);
     }
 
   }
@@ -84,6 +84,9 @@
   .layout {
     display: flex;
     flex-direction: column-reverse;
+  }
+  .notes{
+    padding: 12px 0;
   }
 </style>
 <style lang="scss" scoped>

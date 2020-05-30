@@ -7,8 +7,10 @@
       </router-link>
     </div>
     <div class="createTag">
-      <button @click="createTag">新建标签</button>
+<!-- 组件是没有点击事件的， 然后native是把事件传给 组件里的默认元素 button -->
+      <Button @click.native="createTag">新建标签</Button>
     </div>
+
   </Layout>
 </template>
 
@@ -17,6 +19,7 @@
   import Icon from '@/components/Icon.vue';
   import {Component} from 'vue-property-decorator';
   import tagList from '@/models/tagList';
+  import Button from '@/components/Button.vue';
 
 
   //好好体会一下 这种封装的感觉
@@ -28,16 +31,15 @@
   tagList.fetch();
 
   @Component({
-    components: {Icon}
+    components: {Button, Icon}
   })
   export default class Labels extends Vue {
-    tags = tagList.tags
+    tags = tagList.tags;
 
     createTag() {
 
       const message = tagList.create();
-      window.alert(`${message.errorCode}：${message.explain}`)
-
+      window.alert(`${message.errorCode}：${message.explain}`);
 
     }
   }
@@ -57,7 +59,6 @@
       justify-content: space-between;
       border-bottom: 1px solid #e6e6e6;
 
-
       > svg {
         width: 18px;
         height: 18px;
@@ -68,20 +69,10 @@
 
     }
   }
-
   .createTag {
     text-align: center;
     padding-top: 16px;
     margin-top: 28px;
-
-    > button {
-      padding: 8px 16px;
-      background: #767676;
-      color: white;
-      border-radius: 4px;
-      border: none;
-
-    }
   }
 
 </style>
