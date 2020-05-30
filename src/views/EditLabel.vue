@@ -3,7 +3,7 @@
 
     {{tag}}
     <div class="navBar">
-      <Icon icon-id="#left" @click="goBack"/>
+      <Icon icon-id="#left" @click.native="goBack"/>
       <span>编辑标签</span>
     </div>
     <div class="form-wrapper">
@@ -17,7 +17,7 @@
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component, Watch} from 'vue-property-decorator';
+  import {Component} from 'vue-property-decorator';
   import tagList from '@/models/tagList';
   import Icon from '@/components/Icon.vue';
   import formItem from '@/components/Money/formItem.vue';
@@ -29,14 +29,16 @@
     components: {Button, formItem, Icon}
   })
   export default class EditLabel extends Vue {
-    tag: Tag = {id: "", name: ""};
-    originTag = '';
+    tag: Tag = {id: 0, name: ""};
+
 
     created(){
       //页面urlId是否存在 tags中
-      const urlId = this.$route.params.id
+      const urlId = parseInt(this.$route.params.id)
       const tags = tagList.tags
+      console.log(tags)
       const tag = tags.filter(tag => tag.id === urlId)[0]
+
       if(tag){
         this.tag = tag
         console.log(this.tag)
@@ -47,13 +49,16 @@
 
     onUpdateValue(name: string){
       tagList.update(this.tag.id, name)
+
     }
+
 
     removeTag(){
       console.log(tagList.remove(this.tag))
       this.$router.replace("/labels")
     }
     goBack(){
+      console.log('返回');
       this.$router.back()
     }
 

@@ -1,11 +1,13 @@
 //注意函数的参数和返回值的类型写法
 
+import createId from '@/lib/idCreator';
+
 type TagList = {
   tags: Tag[];
   fetch: () => Tag[];
   save: () => void;
   create: () => ErrorTip;
-  update: (oldName: string, newName: string) => ErrorTip;
+  update: (id: number, name: string) => ErrorTip;
   remove: (tag: Tag) => ErrorTip;
 }
 
@@ -20,11 +22,13 @@ const tagList: TagList = {
     if (!window.localStorage.getItem('version')) {
       //逻辑有待优化
       console.log('没有版本');
+
+
       this.tags = [
-        {id: '衣', name: '衣'},
-        {id: '食', name: '食'},
-        {id: '住', name: '住'},
-        {id: '行', name: '行'},
+        {id: createId(), name: '衣'},
+        {id: createId(), name: '食'},
+        {id: createId(), name: '住'},
+        {id: createId(), name: '行'},
       ];
       this.save();
     }
@@ -33,6 +37,8 @@ const tagList: TagList = {
   },
   save() {
     window.localStorage.setItem('tagList', JSON.stringify(this.tags));
+    const idMax = this.tags.length
+    window.localStorage.setItem("_idMax", String(idMax))
 
   },
   create() {
@@ -52,7 +58,7 @@ const tagList: TagList = {
       const tagNames: string[] = this.tags.map(tag => tag.name);
 
       if (tagNames.indexOf(inputTag) === -1) {
-        this.tags.push({id: inputTag, name: inputTag});
+        this.tags.push({id: createId(), name: inputTag});
         this.save();
         return {errorCode: 0, explain: '标签创建成功！'};
       } else {
@@ -66,7 +72,7 @@ const tagList: TagList = {
     return {errorCode: 3, explain: '取消创建'};
   },
   update(id, name){
-    const tagIds: string[] = this.tags.map(tag => tag.id)
+    const tagIds: number[] = this.tags.map(tag => tag.id)
 
     if (tagIds.indexOf(id) >= 0) {
       console.log("fuck")
@@ -79,7 +85,7 @@ const tagList: TagList = {
       } else {
         const tag = this.tags.filter(i => i.id===id)[0]
         tag.name = name
-        tag.id = name
+        tag.id = createId()
         console.log(this.tags)
         this.save()
         return {errorCode: 0, explain: "修改成功"}
