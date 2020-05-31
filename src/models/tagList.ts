@@ -92,7 +92,8 @@ const tagList: TagList = {
     if(index >= 0) {
       this.tags.splice(index, 1)
       console.log(this.tags)
-      idManager.back()
+      //不能变
+      // idManager.back()
       this.save()
       return {errorCode: 0, explain: "成功"}
     } else {
