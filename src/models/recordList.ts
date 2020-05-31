@@ -1,9 +1,12 @@
 const recordList = {
+  //属性使用强制断言，避免两个冒号
+  data: [] as RecordItem[],
   fetch() {
-    return JSON.parse(window.localStorage.getItem('records') || '[]') as RecordItem[];
+    this.data = JSON.parse(window.localStorage.getItem('records') || '[]') as RecordItem[];
+    return this.data
   },
-  save(data: RecordItem[]) {
-    window.localStorage.setItem('records', JSON.stringify(data));
+  save() {
+    window.localStorage.setItem('records', JSON.stringify(this  .data));
   },
   clone(data: RecordItem) {
     return JSON.parse(JSON.stringify(data));

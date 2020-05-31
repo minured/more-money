@@ -37,9 +37,6 @@ const tagList: TagList = {
   },
   save() {
     window.localStorage.setItem('tagList', JSON.stringify(this.tags));
-    const idMax = this.tags.length
-    window.localStorage.setItem("_idMax", String(idMax))
-
   },
   create() {
     let inputTag = window.prompt('请输入标签名：');

@@ -32,22 +32,8 @@
 
 
     addTag() {
-      // const inputTag = window.prompt('请输入自定义标签：');
-      //
-      // //这里的判断有待优化
-      // if (inputTag) {
-      //   if (inputTag.trim() === '') {
-      //     window.alert('标签名不能为空');
-      //   } else if (this.tagsData && this.tagsData.indexOf(inputTag!) === -1) {
-      //     //不应该改外部数据， 语法合法但是不推荐
-      //     this.$emit('update:tagsData', [...this.tagsData, inputTag]);
-      //   }
-      // } else {
-      //   window.alert('标签名不能为空');
-      // }
-
       const message: ErrorTip = tagList.create()
-      window.alert(`${message.errorCode}：${message.explain}`)
+      // window.alert(`${message.errorCode}：${message.explain}`)
     }
 
     toggle(tag: string) {

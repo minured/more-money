@@ -30,7 +30,6 @@
 
   tagList.fetch();
 
-
   @Component({
     components: {Button, Icon}
   })
@@ -42,8 +41,8 @@
     tags = tagList.tags;
 
     createTag() {
-      const message = tagList.create();
-      window.alert(`${message.errorCode}：${message.explain}`);
+      const message: ErrorTip = tagList.create();
+      // window.alert(`${message.errorCode}：${message.explain}`);
 
     }
   }
