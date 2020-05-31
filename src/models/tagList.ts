@@ -10,7 +10,6 @@ const tagList: TagList = {
   fetch() {
     //用是否含有数据库版本来 判断是否是第一次使用
     //有待优化
-    console.log("从本地获取数据")
     if (!window.localStorage.getItem('version')) {
       //逻辑有待优化
       console.log('没有版本');
@@ -28,7 +27,6 @@ const tagList: TagList = {
   },
   save() {
     window.localStorage.setItem('tagList', JSON.stringify(this.tags));
-    console.log("已保存到本地")
   },
   create() {
     let inputTag = window.prompt('请输入标签名：');
@@ -76,7 +74,7 @@ const tagList: TagList = {
       } else {
         const tag = this.tags.filter(i => i.id===id)[0]
         tag.name = name
-        tag.id = createId()
+        // tag.id = createId()
         console.log(this.tags)
         this.save()
         return {errorCode: 0, explain: "修改成功"}
@@ -99,6 +97,9 @@ const tagList: TagList = {
     } else {
       return {errorCode: 4, explain: "not_found"}
     }
+  },
+  findTag(id: number){
+    return this.tags.filter(tag => tag.id === id)[0]
   }
 
 

@@ -17,7 +17,6 @@
 <script lang="ts">
   import Vue from 'vue';
   import {Component, Prop} from 'vue-property-decorator';
-  import tagList from '@/models/tagList';
 
   @Component
   export default class Tags extends Vue {
@@ -32,7 +31,7 @@
 
 
     addTag() {
-      const message: ErrorTip = tagList.create()
+      const message: ErrorTip = window.tagListModel.create()
       // window.alert(`${message.errorCode}：${message.explain}`)
     }
 
@@ -67,7 +66,6 @@
       flex-wrap: wrap;
       overflow: auto;
       height: 25vh;
-      border:1px solid black;
       padding-left: 10px;
 
       > li {

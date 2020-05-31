@@ -21,21 +21,10 @@
   import formItem from '@/components/Money/formItem.vue';
   import Tags from '@/components/Money/Tags.vue';
   import {recordList} from '@/models/recordList';
-  import tagList from '@/models/tagList';
 
 
   const localRecords = recordList.fetch();
 
-  //数据库版本 ，用来升级数据库
-  //版本判断升级
-  const version = window.localStorage.getItem('version') || 0;
-  if (version === '0.0.1') {
-    localRecords.forEach(record => {
-      record.date = new Date(0);
-    });
-    window.localStorage.setItem('records', JSON.stringify(localRecords));
-  }
-  window.localStorage.setItem('version', '0.0.2');
 
 
   //使用的时候，要注意，下面是Vue里面，要注意this，上面是外面
@@ -44,8 +33,7 @@
   })
   export default class Money extends Vue {
 
-    //从window拿数据
-    tags = window.tagList;
+    tags = window.tagListModel.tags
 
     record: RecordItem = {
       selectedTags: [],
@@ -56,6 +44,20 @@
     };
 
     records: RecordItem[] = localRecords;
+
+    beforeCreate(){
+      //数据库版本 ，用来升级数据库
+      //版本判断升级
+      const version = window.localStorage.getItem('version') || 0;
+      if (version === '0.0.1') {
+        localRecords.forEach(record => {
+          record.date = new Date(0);
+        });
+        window.localStorage.setItem('records', JSON.stringify(localRecords));
+      }
+      window.localStorage.setItem('version', '0.0.2');
+      console.log("写入版本")
+    }
 
     saveRecord() {
       recordList.create(this.record);

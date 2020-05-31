@@ -15,10 +15,13 @@ Vue.config.productionTip = false;
 
 //一个组件在多个组件使用，把它注册为全局组件
 Vue.component('Nav', Nav);
-Vue.component('Layout', Layout)
+Vue.component('Layout', Layout);
 
-//把数据挂到Window
-window.tagList = tagList.fetch()
+//把数据挂到Window，我感觉不太好
+// window.tagList = tagList.fetch()
+
+window.tagListModel = tagList
+window.tagListModel.fetch()
 
 new Vue({
   //初始化router，router:router

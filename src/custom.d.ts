@@ -26,9 +26,10 @@ type TagList = {
   create: () => ErrorTip;
   update: (id: number, name: string) => ErrorTip;
   remove: (tag: Tag) => ErrorTip;
+  findTag: (id: number) => Tag | undefined;
 }
 
 //声明window的属性,注意Window大写
 interface Window {
-  tagList: Tag[];
+  tagListModel: TagList;
 }

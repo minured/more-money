@@ -1,7 +1,6 @@
 <template>
   <Layout>
-
-    {{tag}}
+    {{temModifyName}}
     <div class="navBar">
       <Icon icon-id="#left" @click.native="goBack"/>
       <span>编辑标签</span>
@@ -9,8 +8,10 @@
     <div class="form-wrapper">
       <form-item field-name="标签名" :notes="tag.name" @update:notes="onUpdateValue"/>
     </div>
-    <div class="remove">
-      <Button @click.native="removeTag">删除标签</Button>
+    <div class="modifyBtn">
+      <Button @click.native="modify" class="confirmBtn">保存修改</Button>
+      <Button @click.native="removeTag" class="removeBtn">删除标签</Button>
+
     </div>
   </Layout>
 </template>
@@ -18,48 +19,49 @@
 <script lang="ts">
   import Vue from 'vue';
   import {Component} from 'vue-property-decorator';
-  import tagList from '@/models/tagList';
   import Icon from '@/components/Icon.vue';
   import formItem from '@/components/Money/formItem.vue';
   import Button from '@/components/Button.vue';
 
-  tagList.fetch()
 
   @Component({
     components: {Button, formItem, Icon}
   })
   export default class EditLabel extends Vue {
-    tag: Tag = {id: 0, name: ""};
+    tag: Tag = {id: 0, name: ''};
+    temModifyName: string = this.tag.name;
 
-
-    created(){
+    created() {
       //页面urlId是否存在 tags中
-      const urlId = parseInt(this.$route.params.id)
-      const tags = tagList.tags
-      console.log(tags)
-      const tag = tags.filter(tag => tag.id === urlId)[0]
+      const urlId = parseInt(this.$route.params.id);
 
-      if(tag){
-        this.tag = tag
-        console.log(this.tag)
+      const currentTag = window.tagListModel.findTag(urlId);
+
+      if (currentTag) {
+        this.tag = currentTag;
       } else {
-        this.$router.replace("/404")
+        this.$router.replace('/404');
       }
     }
 
-    onUpdateValue(name: string){
-      tagList.update(this.tag.id, name)
-
+    onUpdateValue(name: string) {
+      this.temModifyName = name;
     }
 
 
-    removeTag(){
-      console.log(tagList.remove(this.tag))
+    modify() {
+      window.tagListModel.update(this.tag.id, this.temModifyName);
       this.$router.replace("/labels")
     }
-    goBack(){
+
+    removeTag() {
+      console.log(window.tagListModel.remove(this.tag));
+      this.$router.replace('/labels');
+    }
+
+    goBack() {
       console.log('返回');
-      this.$router.back()
+      this.$router.back();
     }
 
   }
@@ -92,9 +94,17 @@
     background: white;
   }
 
-  .remove {
+  .modifyBtn {
     text-align: center;
     padding-top: 16px;
     margin-top: 28px;
+
+    > .confirmBtn{
+      background: darkgreen;
+      margin-right: 10px;
+    }
+    > .removeBtn {
+      background: darkred;
+    }
   }
 </style>

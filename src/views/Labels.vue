@@ -20,7 +20,6 @@
   import Vue from 'vue';
   import Icon from '@/components/Icon.vue';
   import {Component} from 'vue-property-decorator';
-  import tagList from '@/models/tagList';
   import Button from '@/components/Button.vue';
 
 
@@ -41,7 +40,7 @@
   export default class Labels extends Vue {
 
 
-    tags = window.tagList;
+    tags = window.tagListModel.tags
 
     // beforeCreate() {
     //   //这里的两个是不一样的
@@ -49,7 +48,7 @@
     // }
 
     createTag() {
-      const message: ErrorTip = tagList.create();
+      const message: ErrorTip = window.tagListModel.create();
     }
   }
 
