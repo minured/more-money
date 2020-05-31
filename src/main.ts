@@ -9,7 +9,7 @@ import store from './store';
 import Nav from '@/components/Nav.vue';
 import Layout from '@/components/Layout.vue';
 import tagList from '@/models/tagList';
-import {recordList} from '@/models/recordList';
+import recordList from '@/models/recordList';
 
 Vue.config.productionTip = false;
 
@@ -23,8 +23,9 @@ window.tagListModel = tagList
 window.tagListModel.fetch()
 
 //初始化记录
-window.recordList = recordList
-window.recordList.fetch()
+window.recordListModel = recordList
+window.recordListModel.fetch()
+
 
 new Vue({
   //初始化router，router:router

@@ -19,4 +19,4 @@ const recordList: RecordList = {
   },
 
 };
-export {recordList};
+export default recordList;

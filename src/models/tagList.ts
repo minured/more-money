@@ -8,20 +8,20 @@ const tagList: TagList = {
   //这里是自己管理tags，通过localStorage获取tags，返回给外部
   tags: [],
   // tags:string[]:[]   TS无法识别这个写法，那么我们声明整个的tagList的类型
+  initTags() {
+    this.tags = [
+      {id: idManager.create(), name: '衣'},
+      {id: idManager.create(), name: '食'},
+      {id: idManager.create(), name: '住'},
+      {id: idManager.create(), name: '行'},
+    ];
+    this.save();
+  },
   fetch() {
-    //用是否含有数据库版本来 判断是否是第一次使用
-    //有待优化
+    //用是否含有数据库版本来 判断是否是第一次使用   逻辑有待优化
     if (!window.localStorage.getItem('version')) {
-      //逻辑有待优化
-      console.log('没有版本');
-
-      this.tags = [
-        {id: idManager.create(), name: '衣'},
-        {id: idManager.create(), name: '食'},
-        {id: idManager.create(), name: '住'},
-        {id: idManager.create(), name: '行'},
-      ];
-      this.save();
+      console.log('没有版本，初始化tags');
+      this.initTags();
     }
     this.tags = JSON.parse(window.localStorage.getItem('tagList') || '[]');
     return this.tags;
@@ -61,47 +61,47 @@ const tagList: TagList = {
     }
     return {errorCode: 3, explain: '取消创建'};
   },
-  update(id, name){
-    const tagIds: number[] = this.tags.map(tag => tag.id)
+  update(id, name) {
+    const tagIds: number[] = this.tags.map(tag => tag.id);
 
     if (tagIds.indexOf(id) >= 0) {
-      console.log("fuck")
+      console.log('fuck');
 
-      const tagNames = this.tags.map(tag => tag.name)
-      if (tagNames.indexOf(name) >=0) {
-        console.log(tagNames)
-        console.log(name)
-        return {errorCode: 1, explain: "重复"}
+      const tagNames = this.tags.map(tag => tag.name);
+      if (tagNames.indexOf(name) >= 0) {
+        console.log(tagNames);
+        console.log(name);
+        return {errorCode: 1, explain: '重复'};
       } else {
-        const tag = this.tags.filter(i => i.id===id)[0]
-        tag.name = name
+        const tag = this.tags.filter(i => i.id === id)[0];
+        tag.name = name;
         // tag.id = createId()
-        console.log(this.tags)
-        this.save()
-        return {errorCode: 0, explain: "修改成功"}
+        console.log(this.tags);
+        this.save();
+        return {errorCode: 0, explain: '修改成功'};
       }
 
     } else {
-      return {errorCode: 4, explain: "not_found"}
+      return {errorCode: 4, explain: 'not_found'};
     }
 
 
   },
-  remove(tag){
-    const index = this.tags.indexOf(tag)
-    if(index >= 0) {
-      this.tags.splice(index, 1)
-      console.log(this.tags)
+  remove(tag) {
+    const index = this.tags.indexOf(tag);
+    if (index >= 0) {
+      this.tags.splice(index, 1);
+      console.log(this.tags);
       //不能变
       // idManager.back()
-      this.save()
-      return {errorCode: 0, explain: "成功"}
+      this.save();
+      return {errorCode: 0, explain: '成功'};
     } else {
-      return {errorCode: 4, explain: "not_found"}
+      return {errorCode: 4, explain: 'not_found'};
     }
   },
-  findTag(id: number){
-    return this.tags.filter(tag => tag.id === id)[0]
+  findTag(id: number) {
+    return this.tags.filter(tag => tag.id === id)[0];
   }
 
 

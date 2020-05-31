@@ -20,11 +20,7 @@
   import Types from '@/components/Money/Types.vue';
   import formItem from '@/components/Money/formItem.vue';
   import Tags from '@/components/Money/Tags.vue';
-  import {recordList} from '@/models/recordList';
-
-
-  const localRecords = recordList.fetch();
-
+  import recordList from '@/models/recordList';
 
 
   //使用的时候，要注意，下面是Vue里面，要注意this，上面是外面
@@ -43,36 +39,33 @@
       date: new Date()
     };
 
-    records: RecordItem[] = localRecords;
+    records: RecordItem[] = window.recordListModel.fetch()
 
-    beforeCreate(){
+    created(){
       //数据库版本 ，用来升级数据库
       //版本判断升级
+
+      //beforeCreate时是没法获取data的，数据在this.$options.data中，
+      //created就可以获取data了
+      // console.log(this.records)
+      // console.log(this.$options.data)
+      console.log(this.records);
       const version = window.localStorage.getItem('version') || 0;
       if (version === '0.0.1') {
-        localRecords.forEach(record => {
+
+        this.records.forEach(record => {
           record.date = new Date(0);
         });
-        window.localStorage.setItem('records', JSON.stringify(localRecords));
+        window.localStorage.setItem('records', JSON.stringify(window.recordListModel));
       }
       window.localStorage.setItem('version', '0.0.2');
-      console.log("写入版本")
     }
 
+    //ok按钮
     saveRecord() {
-      recordList.create(this.record);
+      window.recordListModel.create(this.record);
     }
 
-    //用watch  避免漏保存
-    @Watch('records')
-    onRecordsChange() {
-      recordList.save();
-    }
-
-    @Watch('tags')
-    onTagsChange() {
-      console.log(this.tags);
-    }
 
   }
 

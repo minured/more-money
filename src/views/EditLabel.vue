@@ -29,7 +29,7 @@
   })
   export default class EditLabel extends Vue {
     tag: Tag = {id: 0, name: ''};
-    temModifyName: string = this.tag.name;
+    temModifyName = "";
 
     created() {
       //页面urlId是否存在 tags中
@@ -39,6 +39,8 @@
 
       if (currentTag) {
         this.tag = currentTag;
+        this.temModifyName = this.tag.name
+
       } else {
         this.$router.replace('/404');
       }
@@ -60,7 +62,6 @@
     }
 
     goBack() {
-      console.log('返回');
       this.$router.back();
     }
 

@@ -29,6 +29,7 @@ type Tag = {
 
 type TagList = {
   tags: Tag[];
+  initTags: () => void;
   fetch: () => Tag[];
   save: () => void;
   create: () => ErrorTip;
@@ -40,5 +41,5 @@ type TagList = {
 //声明window的属性,注意Window大写
 interface Window {
   tagListModel: TagList;
-  recordList: RecordList;
+  recordListModel: RecordList;
 }
