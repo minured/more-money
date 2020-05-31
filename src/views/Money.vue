@@ -20,7 +20,7 @@
   import Types from '@/components/Money/Types.vue';
   import formItem from '@/components/Money/formItem.vue';
   import Tags from '@/components/Money/Tags.vue';
-  import recordList from '@/models/recordList';
+  import store from '@/store/dataModel';
 
 
   //使用的时候，要注意，下面是Vue里面，要注意this，上面是外面
@@ -29,7 +29,7 @@
   })
   export default class Money extends Vue {
 
-    tags = window.tagListModel.tags
+    tags = store.tagListModel.tags
 
     record: RecordItem = {
       selectedTags: [],
@@ -39,31 +39,12 @@
       date: new Date()
     };
 
-    records: RecordItem[] = window.recordListModel.fetch()
+    records: RecordItem[] = store.recordListModel.fetch()
 
-    created(){
-      //数据库版本 ，用来升级数据库
-      //版本判断升级
-
-      //beforeCreate时是没法获取data的，数据在this.$options.data中，
-      //created就可以获取data了
-      // console.log(this.records)
-      // console.log(this.$options.data)
-      console.log(this.records);
-      const version = window.localStorage.getItem('version') || 0;
-      if (version === '0.0.1') {
-
-        this.records.forEach(record => {
-          record.date = new Date(0);
-        });
-        window.localStorage.setItem('records', JSON.stringify(window.recordListModel));
-      }
-      window.localStorage.setItem('version', '0.0.2');
-    }
 
     //ok按钮
     saveRecord() {
-      window.recordListModel.create(this.record);
+      store.recordListModel.create(this.record);
     }
 
 

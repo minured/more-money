@@ -18,13 +18,6 @@ Vue.config.productionTip = false;
 Vue.component('Nav', Nav);
 Vue.component('Layout', Layout);
 
-//初始化标签
-window.tagListModel = tagList
-window.tagListModel.fetch()
-
-//初始化记录
-window.recordListModel = recordList
-window.recordListModel.fetch()
 
 
 new Vue({

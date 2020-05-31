@@ -17,6 +17,7 @@
 <script lang="ts">
   import Vue from 'vue';
   import {Component, Prop} from 'vue-property-decorator';
+  import store from '@/store/dataModel';
 
   @Component
   export default class Tags extends Vue {
@@ -31,7 +32,7 @@
 
 
     addTag() {
-      const message: ErrorTip = window.tagListModel.create()
+      const message: ErrorTip = store.tagListModel.create()
       // window.alert(`${message.errorCode}：${message.explain}`)
     }
 

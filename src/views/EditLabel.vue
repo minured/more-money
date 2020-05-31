@@ -22,6 +22,7 @@
   import Icon from '@/components/Icon.vue';
   import formItem from '@/components/Money/formItem.vue';
   import Button from '@/components/Button.vue';
+  import store from '@/store/dataModel';
 
 
   @Component({
@@ -35,7 +36,7 @@
       //页面urlId是否存在 tags中
       const urlId = parseInt(this.$route.params.id);
 
-      const currentTag = window.tagListModel.findTag(urlId);
+      const currentTag = store.tagListModel.findTag(urlId);
 
       if (currentTag) {
         this.tag = currentTag;
@@ -52,12 +53,12 @@
 
 
     modify() {
-      window.tagListModel.update(this.tag.id, this.temModifyName);
+      store.tagListModel.update(this.tag.id, this.temModifyName);
       this.$router.replace("/labels")
     }
 
     removeTag() {
-      console.log(window.tagListModel.remove(this.tag));
+      console.log(store.tagListModel.remove(this.tag));
       this.$router.replace('/labels');
     }
 

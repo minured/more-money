@@ -5,13 +5,13 @@ const idManager = {
   },
   create() {
     id++;
-    this.save()
+    this.save();
     return id;
   },
   back() {
     id--;
-    this.save()
-    return id
+    this.save();
+    return id;
   }
 };
-export default idManager
+export default idManager;

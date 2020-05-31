@@ -65,18 +65,14 @@ const tagList: TagList = {
     const tagIds: number[] = this.tags.map(tag => tag.id);
 
     if (tagIds.indexOf(id) >= 0) {
-      console.log('fuck');
 
       const tagNames = this.tags.map(tag => tag.name);
       if (tagNames.indexOf(name) >= 0) {
-        console.log(tagNames);
-        console.log(name);
         return {errorCode: 1, explain: '重复'};
       } else {
         const tag = this.tags.filter(i => i.id === id)[0];
         tag.name = name;
         // tag.id = createId()
-        console.log(this.tags);
         this.save();
         return {errorCode: 0, explain: '修改成功'};
       }
@@ -91,7 +87,6 @@ const tagList: TagList = {
     const index = this.tags.indexOf(tag);
     if (index >= 0) {
       this.tags.splice(index, 1);
-      console.log(this.tags);
       //不能变
       // idManager.back()
       this.save();
