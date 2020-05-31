@@ -55,18 +55,13 @@
     records: RecordItem[] = localRecords;
 
     saveRecord() {
-      this.record.date = new Date();
-      //这里push的是一个引用，所以每次push应该创建一个新的对象
-      //用JSON实现深拷贝
-      const deepClone = recordList.clone(this.record);
-      this.records.push(deepClone);
-
+      recordList.create(this.record)
     }
 
     //用watch  避免漏保存
     @Watch('records')
     onRecordsChange() {
-      recordList.save(this.records);
+      recordList.save();
     }
 
     @Watch('tags')
