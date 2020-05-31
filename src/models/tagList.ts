@@ -1,6 +1,7 @@
 //注意函数的参数和返回值的类型写法
 
 import createId from '@/lib/idCreator';
+import idManager from '@/lib/idCreator';
 
 
 const tagList: TagList = {
@@ -15,10 +16,10 @@ const tagList: TagList = {
       console.log('没有版本');
 
       this.tags = [
-        {id: createId(), name: '衣'},
-        {id: createId(), name: '食'},
-        {id: createId(), name: '住'},
-        {id: createId(), name: '行'},
+        {id: idManager.create(), name: '衣'},
+        {id: idManager.create(), name: '食'},
+        {id: idManager.create(), name: '住'},
+        {id: idManager.create(), name: '行'},
       ];
       this.save();
     }
@@ -45,7 +46,7 @@ const tagList: TagList = {
       const tagNames: string[] = this.tags.map(tag => tag.name);
 
       if (tagNames.indexOf(inputTag) === -1) {
-        this.tags.push({id: createId(), name: inputTag});
+        this.tags.push({id: idManager.create(), name: inputTag});
 
         //改变就保存
         this.save();
@@ -91,9 +92,9 @@ const tagList: TagList = {
     if(index >= 0) {
       this.tags.splice(index, 1)
       console.log(this.tags)
+      idManager.back()
       this.save()
       return {errorCode: 0, explain: "成功"}
-
     } else {
       return {errorCode: 4, explain: "not_found"}
     }

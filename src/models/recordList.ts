@@ -1,6 +1,6 @@
 import clone from '@/lib/clone';
 
-const recordList = {
+const recordList: RecordList = {
   //属性使用强制断言，避免两个冒号
   data: [] as RecordItem[],
   fetch() {

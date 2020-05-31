@@ -13,6 +13,14 @@ type ErrorTip = {
   explain: string;
 }
 
+type RecordList = {
+  data: RecordItem[];
+  fetch: () => RecordItem[];
+  create: (record: RecordItem) => void;
+  save: () => void;
+}
+
+
 type Tag = {
   //这里暂时把tagName 作为id，以后写一个id生成器
   id: number;
@@ -32,4 +40,5 @@ type TagList = {
 //声明window的属性,注意Window大写
 interface Window {
   tagListModel: TagList;
+  recordList: RecordList;
 }

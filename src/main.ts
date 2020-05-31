@@ -9,6 +9,7 @@ import store from './store';
 import Nav from '@/components/Nav.vue';
 import Layout from '@/components/Layout.vue';
 import tagList from '@/models/tagList';
+import {recordList} from '@/models/recordList';
 
 Vue.config.productionTip = false;
 
@@ -17,11 +18,13 @@ Vue.config.productionTip = false;
 Vue.component('Nav', Nav);
 Vue.component('Layout', Layout);
 
-//把数据挂到Window，我感觉不太好
-// window.tagList = tagList.fetch()
-
+//初始化标签
 window.tagListModel = tagList
 window.tagListModel.fetch()
+
+//初始化记录
+window.recordList = recordList
+window.recordList.fetch()
 
 new Vue({
   //初始化router，router:router
