@@ -6,7 +6,9 @@ const store = {
   tagListModel: tagList,
   recordListModel: recordList
 };
-console.log('store');
+
+
+console.log(store);
 store.tagListModel.fetch();
 store.recordListModel.fetch();
 
