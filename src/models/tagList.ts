@@ -2,15 +2,6 @@
 
 import createId from '@/lib/idCreator';
 
-type TagList = {
-  tags: Tag[];
-  fetch: () => Tag[];
-  save: () => void;
-  create: () => ErrorTip;
-  update: (id: number, name: string) => ErrorTip;
-  remove: (tag: Tag) => ErrorTip;
-}
-
 
 const tagList: TagList = {
   //这里是自己管理tags，通过localStorage获取tags，返回给外部
@@ -19,10 +10,10 @@ const tagList: TagList = {
   fetch() {
     //用是否含有数据库版本来 判断是否是第一次使用
     //有待优化
+    console.log("从本地获取数据")
     if (!window.localStorage.getItem('version')) {
       //逻辑有待优化
       console.log('没有版本');
-
 
       this.tags = [
         {id: createId(), name: '衣'},
@@ -37,6 +28,7 @@ const tagList: TagList = {
   },
   save() {
     window.localStorage.setItem('tagList', JSON.stringify(this.tags));
+    console.log("已保存到本地")
   },
   create() {
     let inputTag = window.prompt('请输入标签名：');
@@ -56,6 +48,8 @@ const tagList: TagList = {
 
       if (tagNames.indexOf(inputTag) === -1) {
         this.tags.push({id: createId(), name: inputTag});
+
+        //改变就保存
         this.save();
         return {errorCode: 0, explain: '标签创建成功！'};
       } else {

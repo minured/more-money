@@ -8,6 +8,7 @@ import router from './router';
 import store from './store';
 import Nav from '@/components/Nav.vue';
 import Layout from '@/components/Layout.vue';
+import tagList from '@/models/tagList';
 
 Vue.config.productionTip = false;
 
@@ -15,6 +16,9 @@ Vue.config.productionTip = false;
 //一个组件在多个组件使用，把它注册为全局组件
 Vue.component('Nav', Nav);
 Vue.component('Layout', Layout)
+
+//把数据挂到Window
+window.tagList = tagList.fetch()
 
 new Vue({
   //初始化router，router:router

@@ -18,3 +18,17 @@ type Tag = {
   id: number;
   name: string;
 }
+
+type TagList = {
+  tags: Tag[];
+  fetch: () => Tag[];
+  save: () => void;
+  create: () => ErrorTip;
+  update: (id: number, name: string) => ErrorTip;
+  remove: (tag: Tag) => ErrorTip;
+}
+
+//声明window的属性,注意Window大写
+interface Window {
+  tagList: Tag[];
+}

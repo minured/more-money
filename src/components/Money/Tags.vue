@@ -53,17 +53,22 @@
 <style lang="scss" scoped>
   .tags {
     background: white;
-    padding: 16px;
+    padding: 10px;
     font-size: 14px;
     /*border: 1px solid black;*/
     flex-grow: 1;
     display: flex;
     flex-direction: column-reverse;
 
+
     > .current {
       /*border: 1px solid black;*/
       display: flex;
       flex-wrap: wrap;
+      overflow: auto;
+      height: 25vh;
+      border:1px solid black;
+      padding-left: 10px;
 
       > li {
         /*border: 1px solid black;*/

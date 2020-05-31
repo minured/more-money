@@ -12,6 +12,7 @@ const recordList = {
     recordClone.date = new Date()
     this.data.push(recordClone)
   //外面使用watch 自动保存，这样好不好
+    this.save()
   },
   save() {
     window.localStorage.setItem('records', JSON.stringify(this  .data));

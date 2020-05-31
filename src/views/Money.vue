@@ -8,7 +8,7 @@
       <form-item :notes.sync="record.notes" field-name="备注" placeholder="在这里输入备注"/>
     </div>
     <Tags :tagsData.sync="tags" :selectedTags.sync="record.selectedTags"/>
-    {{ record }}
+<!--    {{ record }}-->
   </Layout>
 
 </template>
@@ -25,6 +25,7 @@
 
 
   const localRecords = recordList.fetch();
+
   //数据库版本 ，用来升级数据库
   //版本判断升级
   const version = window.localStorage.getItem('version') || 0;
@@ -42,7 +43,9 @@
     components: {Tags, formItem, Types, NumberPad},
   })
   export default class Money extends Vue {
-    tags = tagList.fetch();
+
+    //从window拿数据
+    tags = window.tagList;
 
     record: RecordItem = {
       selectedTags: [],
@@ -55,7 +58,7 @@
     records: RecordItem[] = localRecords;
 
     saveRecord() {
-      recordList.create(this.record)
+      recordList.create(this.record);
     }
 
     //用watch  避免漏保存
@@ -79,7 +82,8 @@
     display: flex;
     flex-direction: column-reverse;
   }
-  .notes{
+
+  .notes {
     padding: 12px 0;
   }
 </style>
