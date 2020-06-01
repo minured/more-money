@@ -22,12 +22,10 @@
   @Component
   export default class Tags extends Vue {
     //string[]  字符串数组
-    //tags应该是外面提供的，不要给外面提供的prop赋值，因为re-render的时候回覆盖
-    @Prop(Array) readonly tagsData: string[] | undefined;
     @Prop(Array) readonly selectedTags!: string[];
 
+    tagsData: Tag[] = store.tagListModel.tags
     //为了避免直接修改props， selectedTags_是本地化的数据
-
     selectedTags_ = this.selectedTags;
 
 
@@ -35,6 +33,7 @@
       const message: ErrorTip = store.tagListModel.create()
       // window.alert(`${message.errorCode}：${message.explain}`)
     }
+
 
     toggle(tag: string) {
       const index = this.selectedTags_.indexOf(tag);

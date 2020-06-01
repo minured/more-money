@@ -1,6 +1,5 @@
 //注意函数的参数和返回值的类型写法
 
-import createId from '@/lib/idCreator';
 import idManager from '@/lib/idCreator';
 
 

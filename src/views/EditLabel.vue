@@ -51,7 +51,7 @@
       this.temModifyName = name;
     }
 
-
+    //这里可以尝试使用函数的防抖与节流
     modify() {
       store.tagListModel.update(this.tag.id, this.temModifyName);
       this.$router.replace("/labels")

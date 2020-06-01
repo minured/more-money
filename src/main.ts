@@ -8,8 +8,6 @@ import router from './router';
 import store from './store';
 import Nav from '@/components/Nav.vue';
 import Layout from '@/components/Layout.vue';
-import tagList from '@/models/tagList';
-import recordList from '@/models/recordList';
 
 Vue.config.productionTip = false;
 
