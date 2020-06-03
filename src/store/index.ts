@@ -1,15 +1,23 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import Vuex from 'vuex';
 
-Vue.use(Vuex)
+//把store挂到Vue.prototype上，  this.$oldStore， store在main.ts传给Vue，可以在template使用$store
+Vue.use(Vuex);
 
-export default new Vuex.Store({
+
+const store = new Vuex.Store({
   state: {
+    count: 0
   },
   mutations: {
+    incremnet(state, n: number) {
+      state.count += n;
+    }
+
   },
-  actions: {
-  },
-  modules: {
-  }
-})
+  actions: {},
+  modules: {}
+});
+
+
+export default store;

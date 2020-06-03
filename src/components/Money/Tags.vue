@@ -17,20 +17,20 @@
 <script lang="ts">
   import Vue from 'vue';
   import {Component, Prop} from 'vue-property-decorator';
-  import store from '@/store/dataModel';
+  import oldStore from '@/store/dataModel';
 
   @Component
   export default class Tags extends Vue {
     //string[]  字符串数组
     @Prop(Array) readonly selectedTags!: string[];
 
-    tagsData: Tag[] = store.tagListModel.tags
+    tagsData: Tag[] = oldStore.tagListModel.tags
     //为了避免直接修改props， selectedTags_是本地化的数据
     selectedTags_ = this.selectedTags;
 
 
     addTag() {
-      const message: ErrorTip = store.tagListModel.create()
+      const message: ErrorTip = oldStore.tagListModel.create()
       // window.alert(`${message.errorCode}：${message.explain}`)
     }
 

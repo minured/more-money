@@ -2,16 +2,15 @@ import tagList from '@/store/tagList';
 import recordList from '@/store/recordList';
 
 
-const store = {
+const oldStore = {
   tagListModel: tagList,
   recordListModel: recordList
 };
 
+//初始化
+oldStore.tagListModel.fetch();
+oldStore.recordListModel.fetch();
 
-console.log(store);
-store.tagListModel.fetch();
-store.recordListModel.fetch();
-
-export default store;
+export default oldStore;
 
 

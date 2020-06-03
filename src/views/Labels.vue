@@ -21,7 +21,7 @@
   import Icon from '@/components/Icon.vue';
   import {Component} from 'vue-property-decorator';
   import Button from '@/components/Button.vue';
-  import store from '@/store/dataModel';
+  import oldStore from '@/store/dataModel';
 
 
   //好好体会一下 这种封装的感觉
@@ -41,7 +41,7 @@
   export default class Labels extends Vue {
 
 
-    tags = store.tagListModel.tags
+    tags = oldStore.tagListModel.tags
 
     // beforeCreate() {
     //   //这里的两个是不一样的
@@ -49,7 +49,7 @@
     // }
 
     createTag() {
-      const message: ErrorTip = store.tagListModel.create();
+      const message: ErrorTip = oldStore.tagListModel.create();
     }
   }
 
