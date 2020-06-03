@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <div class="tags-wrapper">
-      <div v-for="(tag, index) in tags" :key="index" class="tags">
+      <div v-for="(tag, index) in tagList" :key="index" class="tags">
         <router-link :to="`/labels/edit/${tag.id}`" class="tag">
           <span>{{tag.name}}</span>
           <Icon icon-id="#right"></Icon>
@@ -36,20 +36,29 @@
   // console.log(localTags === tagList.tags);
 
   @Component({
-    components: {Button, Icon}
+    components: {Button, Icon},
+    computed: {
+      tagList() {
+        return this.$store.state.tagList;
+      }
+    }
+
   })
   export default class Labels extends Vue {
 
-
-    tags = oldStore.tagListModel.tags
+    // tags = oldStore.tagListModel.tags
 
     // beforeCreate() {
     //   //这里的两个是不一样的
     //   // console.log(localTags === tagList.tags);
     // }
 
+    created() {
+      this.$store.commit('fetchTagList');
+    }
+
     createTag() {
-      const message: ErrorTip = oldStore.tagListModel.create();
+      this.$store.commit('createTag');
     }
   }
 
@@ -60,6 +69,7 @@
   ::-webkit-scrollbar {
     display: none;
   }
+
   .tags-wrapper {
     /*border: 1px solid black;*/
     height: 80vh;

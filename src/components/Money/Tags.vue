@@ -1,10 +1,11 @@
 <template>
   <div class="tags">
+    {{tagList}}
     <div class="new">
       <button @click="addTag">新增标签</button>
     </div>
     <ul class="current">
-      <li v-for="(tag, index) in tagsData" :key="index"
+      <li v-for="(tag, index) in tagList" :key="index"
           :class="{selected: selectedTags_.indexOf(tag) >= 0}"
           @click="toggle(tag)">{{tag.name}}
       </li>
@@ -17,21 +18,27 @@
 <script lang="ts">
   import Vue from 'vue';
   import {Component, Prop} from 'vue-property-decorator';
-  import oldStore from '@/store/dataModel';
 
-  @Component
+  @Component({
+    computed:{
+      tagList(){
+        return this.$store.state.tagList
+      }
+    }
+  })
   export default class Tags extends Vue {
     //string[]  字符串数组
     @Prop(Array) readonly selectedTags!: string[];
 
-    tagsData: Tag[] = oldStore.tagListModel.tags
     //为了避免直接修改props， selectedTags_是本地化的数据
     selectedTags_ = this.selectedTags;
 
-
+    created(){
+      this.$store.commit('fetchTagList')
+    }
     addTag() {
-      const message: ErrorTip = oldStore.tagListModel.create()
-      // window.alert(`${message.errorCode}：${message.explain}`)
+      // const message: ErrorTip = oldStore.tagListModel.create();
+      this.$store.commit('createTag')
     }
 
 

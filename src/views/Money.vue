@@ -20,7 +20,6 @@
   import Types from '@/components/Money/Types.vue';
   import formItem from '@/components/Money/formItem.vue';
   import Tags from '@/components/Money/Tags.vue';
-  import oldStore from '@/store/dataModel';
 
 
   //使用的时候，要注意，下面是Vue里面，要注意this，上面是外面
@@ -31,11 +30,8 @@
         return this.$store.state.recordList
       }
     }
-
   })
   export default class Money extends Vue {
-
-    tags = oldStore.tagListModel.tags;
 
     record: RecordItem = {
       selectedTags: [],
