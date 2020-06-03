@@ -8,10 +8,6 @@
       <form-item :notes.sync="record.notes" field-name="备注" placeholder="在这里输入备注"/>
     </div>
     <Tags :selectedTags.sync="record.selectedTags"/>
-    {{ count }}
-    <button
-      @click="$store.commit('incremnet', 10)">+1
-    </button>
 
   </Layout>
 
@@ -25,18 +21,17 @@
   import formItem from '@/components/Money/formItem.vue';
   import Tags from '@/components/Money/Tags.vue';
   import oldStore from '@/store/dataModel';
-  import store from '@/store';
 
-  console.log(store.state.count);
 
   //使用的时候，要注意，下面是Vue里面，要注意this，上面是外面
   @Component({
     components: {Tags, formItem, Types, NumberPad},
-    computed: {
-      count() {
-        return store.state.count;
+    computed:{
+      recordList(){
+        return this.$store.state.recordList
       }
     }
+
   })
   export default class Money extends Vue {
 
@@ -50,12 +45,14 @@
       date: new Date()
     };
 
-    records: RecordItem[] = oldStore.recordListModel.fetch();
-
+    created(){
+      this.$store.commit("fetchRecordList")
+    }
 
     //ok按钮
     saveRecord() {
-      oldStore.recordListModel.create(this.record);
+      // oldStore.recordListModel.create(this.record);
+      this.$store.commit("createRecord", this.record)
     }
   }
 
