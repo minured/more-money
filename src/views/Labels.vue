@@ -21,7 +21,6 @@
   import Icon from '@/components/Icon.vue';
   import {Component} from 'vue-property-decorator';
   import Button from '@/components/Button.vue';
-  import oldStore from '@/store/dataModel';
 
 
   //好好体会一下 这种封装的感觉

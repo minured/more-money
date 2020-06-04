@@ -9,7 +9,7 @@ const recordList: RecordList = {
   },
   create(record: RecordItem){
     const recordClone: RecordItem = clone(record)
-    recordClone.date = new Date()
+    recordClone.date = new Date().toISOString()
     this.data.push(recordClone)
   //外面使用watch 自动保存，这样好不好
     this.save()

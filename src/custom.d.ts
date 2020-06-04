@@ -6,11 +6,16 @@ type RecordItem = {
   type: string;
   amount: number;
   //除了写数据类型，还可以写类 class或者构造函数
-  date?: Date;
+  date?: string;   //因为JSON是不支持Date,默认会变成字符串
 }
 type ErrorTip = {
   errorCode: number;
   explain: string;
+}
+type RootState = {
+  recordList: RecordItem[];
+  tagList: Tag[];
+  currentTag?: Tag;
 }
 
 type RecordList = {

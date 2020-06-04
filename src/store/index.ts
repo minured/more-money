@@ -2,16 +2,11 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import clone from '@/lib/clone';
 import idManager from '@/lib/idCreator';
-import Tags from '@/components/Money/Tags.vue';
 
 //把store挂到Vue.prototype上，  this.$oldStore， store在main.ts传给Vue，可以在template使用$store
 Vue.use(Vuex);
 
-type RootState = {
-  recordList: RecordItem[];
-  tagList: Tag[];
-  currentTag?: Tag;
-}
+
 
 const store = new Vuex.Store({
   state: {
@@ -28,7 +23,7 @@ const store = new Vuex.Store({
     },
     createRecord(state, record: RecordItem) {
       const recordClone: RecordItem = clone(record);
-      recordClone.date = new Date();
+      recordClone.date = new Date().toISOString();
       state.recordList.push(recordClone);
       console.log(state.recordList);
       //  这里可以直接commit

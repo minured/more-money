@@ -24,7 +24,6 @@
 
     select(item: DataSourceItem){
       this.$emit('update:value', item.value)
-      console.log("点击了")
     }
     liClass(item: DataSourceItem){
       return {

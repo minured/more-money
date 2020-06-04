@@ -39,7 +39,7 @@
       notes: '',
       type: '-',
       amount: 0,
-      date: new Date()
+      date: new Date().toISOString()
     };
 
     created() {

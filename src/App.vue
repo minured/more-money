@@ -18,7 +18,7 @@
       console.log(version)
       if (version === '0.0.1') {
         window.recordListModel.data.forEach(record => {
-          record.date = new Date(0);
+          record.date = new Date(0).toISOString();
         });
         window.localStorage.setItem('records', JSON.stringify(window.recordListModel));
       }

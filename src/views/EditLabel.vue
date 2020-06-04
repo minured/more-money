@@ -22,7 +22,6 @@
   import Icon from '@/components/Icon.vue';
   import formItem from '@/components/Money/formItem.vue';
   import Button from '@/components/Button.vue';
-  import oldStore from '@/store/dataModel';
 
 
   @Component({
