@@ -1,7 +1,8 @@
 <template>
-  <ul class="tabs">
+  <ul class="tabs" :class="{[classPrefix+'-tabs']: classPrefix}">
     <li v-for="(item, index) in dataSource" :key="index"
         @click="select(item)"
+        class="tabs-item"
         :class="liClass(item)">{{item.text}}
     </li>
   </ul>
@@ -39,8 +40,8 @@
     background-color: #c4c4c4;
     display: flex;
     font-size: 24px;
-
-    > li {
+    /*& 代表上层的 选择器,这里就是 .tabs,合起来 .tabs-item*/
+    &-item {
       width: 50%;
       /*border: 1px solid black;*/
       height: 64px;
