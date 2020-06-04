@@ -53,6 +53,7 @@ const store = new Vuex.Store({
     fetchTagList(state) {
       //用是否含有数据库版本来 判断是否是第一次使用   逻辑有待优化
       if (!window.localStorage.getItem('version')) {
+        console.log(window.localStorage.getItem('version'))
         console.log('首次使用，初始化tags');
         store.commit('initTagLit');
       }

@@ -1,6 +1,5 @@
 <template>
   <div class="tags">
-    {{tagList}}
     <div class="new">
       <button @click="addTag">新增标签</button>
     </div>

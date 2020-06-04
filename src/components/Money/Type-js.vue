@@ -19,7 +19,6 @@
           throw new Error("type is unknown")
         }
         this.type = type
-
       }
     }
 
