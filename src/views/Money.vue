@@ -17,7 +17,6 @@
   import Vue from 'vue';
   import {Component} from 'vue-property-decorator';
   import NumberPad from '@/components/Money/NumberPad.vue';
-  import Types from '@/components/Money/Types.vue';
   import formItem from '@/components/Money/formItem.vue';
   import Tags from '@/components/Money/Tags.vue';
   import Tabs from '@/components/Tabs.vue';
@@ -26,7 +25,7 @@
 
   //使用的时候，要注意，下面是Vue里面，要注意this，上面是外面
   @Component({
-    components: {Tabs, Tags, formItem, Types, NumberPad},
+    components: {Tabs, Tags, formItem, NumberPad},
     computed: {
       recordList() {
         return this.$store.state.recordList;
