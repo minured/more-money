@@ -11,47 +11,20 @@
         <!--            <li>{{record.amount}}</li>-->
         <!--          </ol>-->
         <!--        </li>-->
-        <li v-for="(group, key, i) in result" :key="i">
-          <h3 class="title">{{key}}</h3>
+        <li v-for="(dateList, i) in result" :key="i">
+          <h3 class="title">{{beautifyDate(dateList.date)}} <span>￥{{dateList.total}}</span></h3>
           <ol>
-            <li v-for="(record, i) in group" :key="i" class="record">
+            <li v-for="(record, i) in dateList.records" :key="i" class="record">
               <span>{{tags2String(record.selectedTags)}}</span>
-              <span class="notes">{{record.notes}}</span>
+              <span class="notes">{{beautifyNotes(record.notes)}}</span>
               <span>￥{{record.amount}}</span>
             </li>
           </ol>
         </li>
       </ol>
-
     </div>
   </Layout>
 </template>
-<style lang="scss" scoped>
-  %item {
-    padding: 0 16px;
-    min-height: 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .title {
-    @extend %item;
-  }
-
-  .record {
-    background: white;
-    @extend %item;
-    .notes{
-      margin-right: auto;
-      margin-left: 16px;
-      color: #999;
-      font-size: 14px;
-    }
-  }
-
-
-</style>
 
 <script lang="ts">
   import Vue from 'vue';
@@ -59,11 +32,36 @@
   import Tabs from '@/components/Tabs.vue';
   import intervalList from '@/constants/intervalList';
   import recordTypeList from '@/constants/recordTypeList';
+  import dayjs from 'dayjs';
+  import clone from '@/lib/clone';
 
   @Component({
     components: {Tabs}
   })
   export default class Statistics extends Vue {
+
+
+    classifyRecord(records: RecordItem[]) {
+      const recordDateList: { date: string; total?: number; records: RecordItem[] }[] = [];
+
+      //自己想的，逻辑有待优化
+      records.forEach(record => {
+        const date = record.date!.split('T')[0];
+        const dateList = recordDateList.map(item => item.date);
+        //不存对应日期的独享，就构建新对象 push进去
+        const index = dateList.indexOf(date);
+        if (index === -1) {
+          recordDateList.push({date: date, records: [record]});
+        } else {
+          //如果存在对应日期的对象根据index定位对象，然后push进该对象的 records
+          recordDateList[index].records.push(record);
+        }
+      });
+      recordDateList.forEach(group => {
+        group.total = group.records.reduce((sum, item) => sum + item.amount, 0);
+      });
+      return recordDateList;
+    }
 
     get recordList() {
       //store的类型是被Vue写死了,是any,所以再取的时候要断言一下
@@ -72,29 +70,12 @@
 
     get result() {
       const {recordList} = this;
-      //这里可以交简化数据结构的 因为 key === group.title，没必要加个title
-      //key是变量写到中括号
-      type HashTableValue = { title: string; items: RecordItem[] }
-      const hashTable: { [key: string]: HashTableValue } = {};
 
-      const hashTable2: { [key: string]: RecordItem[] } = {};
+      //收入支出的克隆与排序
+      const newRecordList = clone(recordList).filter(r => r.type === this.type).sort((a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf());
 
-      for (let i = 0; i < recordList.length; i++) {
-        const [date, time] = recordList[i].date!.split('T');
+      return this.classifyRecord(newRecordList);
 
-        //||取第一个真值
-        //逻辑就是按日期分类，日期存在就按原来赋值，日期不存在就创建新key，value为[]
-        hashTable[date] = hashTable[date] || {title: date, items: []};
-        hashTable[date].items.push(recordList[i]);
-
-        hashTable2[date] = hashTable2[date] || [];
-        hashTable2[date].push(recordList[i]);
-
-
-      }
-      // console.log(hashTable)
-      console.log(hashTable2);
-      return hashTable2;
     }
 
 
@@ -111,6 +92,33 @@
     tags2String(tags: Tag[]) {
       //TODO 限制显示长度
       return tags.length === 0 ? '无' : tags.map(tag => tag.name).toString();
+
+    }
+
+
+    beautifyNotes(notes: string) {
+      if (notes.length > 20) {
+        return (notes.substring(1, 18) + '...');
+      } else {
+        return notes;
+      }
+    }
+
+    beautifyDate(date: string) {
+      const day = dayjs(date);
+      const now = dayjs();
+      if (day.isSame(now, 'day')) {
+        return '今天';
+      } else if (day.isSame(now.subtract(1, 'day'), 'day')) {
+        return '昨天';
+      } else if (day.isSame(now.subtract(2, 'day'), 'day')) {
+        return '前天';
+      } else if (day.isSame(now, 'year')) {
+        return day.format('M月D日');
+      } else {
+        return day.format('YYYY年MM月DD日');
+      }
+
 
     }
   }
@@ -134,5 +142,30 @@
       height: 48px;
     }
   }
+
+  %item {
+    padding: 0 16px;
+    min-height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .title {
+    @extend %item;
+  }
+
+  .record {
+    background: white;
+    @extend %item;
+
+    .notes {
+      margin-right: auto;
+      margin-left: 16px;
+      color: #999;
+      font-size: 14px;
+    }
+  }
+
 
 </style>

@@ -55,8 +55,8 @@
 </script>
 
 <!--添加一个没有scoped的style-->
-<style>
-  .layout {
+<style scoped>
+  ::v-deep .layout {
     display: flex;
     flex-direction: column-reverse;
   }
