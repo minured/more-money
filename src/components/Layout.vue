@@ -24,11 +24,12 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
-    overflow: auto;
   }
 
   .content {
     //使得内容尽可能占据更多的位置
+    overflow: auto;
+
     flex-grow: 1;
   }
 </style>

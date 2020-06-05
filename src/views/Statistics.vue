@@ -12,9 +12,13 @@
         <!--          </ol>-->
         <!--        </li>-->
         <li v-for="(group, key, i) in result" :key="i">
-          <h3>{{key}}</h3>
+          <h3 class="title">{{key}}</h3>
           <ol>
-            <li v-for="(record, i) in group" :key="i">{{record.amount}}</li>
+            <li v-for="(record, i) in group" :key="i" class="record">
+              <span>{{tags2String(record.selectedTags)}}</span>
+              <span class="notes">{{record.notes}}</span>
+              <span>￥{{record.amount}}</span>
+            </li>
           </ol>
         </li>
       </ol>
@@ -22,6 +26,32 @@
     </div>
   </Layout>
 </template>
+<style lang="scss" scoped>
+  %item {
+    padding: 0 16px;
+    min-height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .title {
+    @extend %item;
+  }
+
+  .record {
+    background: white;
+    @extend %item;
+    .notes{
+      margin-right: auto;
+      margin-left: 16px;
+      color: #999;
+      font-size: 14px;
+    }
+  }
+
+
+</style>
 
 <script lang="ts">
   import Vue from 'vue';
@@ -42,9 +72,7 @@
 
     get result() {
       const {recordList} = this;
-
       //这里可以交简化数据结构的 因为 key === group.title，没必要加个title
-
       //key是变量写到中括号
       type HashTableValue = { title: string; items: RecordItem[] }
       const hashTable: { [key: string]: HashTableValue } = {};
@@ -60,7 +88,7 @@
         hashTable[date].items.push(recordList[i]);
 
         hashTable2[date] = hashTable2[date] || [];
-        hashTable2[date].push(recordList[i])
+        hashTable2[date].push(recordList[i]);
 
 
       }
@@ -70,13 +98,20 @@
     }
 
 
-    type = '+';
-    interval = 'week';
+    type = '-';
+    interval = 'day';
     intervalList = intervalList;
     recordTypeList = recordTypeList;
 
     beforeCreate() {
       this.$store.commit('fetchRecordList');
+    }
+
+
+    tags2String(tags: Tag[]) {
+      //TODO 限制显示长度
+      return tags.length === 0 ? '无' : tags.map(tag => tag.name).toString();
+
     }
   }
 </script>
