@@ -61,24 +61,20 @@ const store = new Vuex.Store({
         inputTag = inputTag.trim();
         //过滤全部都是空格
         if (inputTag === '') {
-          return {errorCode: 1, explain: '标签名不能为空！'};
+          window.alert("标签名不能为空")
         }
-
         //map返回符合条件的元素作为新数组
         const tagNames: string[] = state.tagList.map(tag => tag.name);
 
         if (tagNames.indexOf(inputTag) === -1) {
+          window.alert(inputTag)
           state.tagList.push({id: idManager.create(), name: inputTag});
-
           //改变就保存
           store.commit('saveTagList');
-          return {errorCode: 0, explain: '标签创建成功！'};
         } else {
-          return {errorCode: 2, explain: '标签已存在'};
+          window.alert('标签已存在')
         }
 
-      } else if (inputTag === '') {    //过滤什么都不输入
-        return {errorCode: 1, explain: '标签名不能为空！'};
       }
       return {errorCode: 3, explain: '取消创建'};
     },

@@ -1,16 +1,10 @@
 <template>
   <Layout>
+    <div class="content-wrapper">
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
-    <Tabs class-prefix="interval" :data-source="intervalList" :value.sync="interval"/>
-    <div>
+    <div class="dataList">
+      <div v-if="!result" class="tips">暂无数据</div>
       <ol>
-        <!--        <li v-for="(group, key, index) in result" :key="index">-->
-
-        <!--          <h3>{{group.title}}</h3>-->
-        <!--          <ol v-for="(record, key, index) in group.items" :key="index">-->
-        <!--            <li>{{record.amount}}</li>-->
-        <!--          </ol>-->
-        <!--        </li>-->
         <li v-for="(dateList, i) in result" :key="i">
           <h3 class="title">{{beautifyDate(dateList.date)}} <span>￥{{dateList.total}}</span></h3>
           <ol>
@@ -23,6 +17,7 @@
         </li>
       </ol>
     </div>
+    </div>
   </Layout>
 </template>
 
@@ -30,7 +25,6 @@
   import Vue from 'vue';
   import {Component} from 'vue-property-decorator';
   import Tabs from '@/components/Tabs.vue';
-  import intervalList from '@/constants/intervalList';
   import recordTypeList from '@/constants/recordTypeList';
   import dayjs from 'dayjs';
   import clone from '@/lib/clone';
@@ -42,6 +36,8 @@
 
 
     classifyRecord(records: RecordItem[]) {
+
+      if (records.length === 0) {return false}
       const recordDateList: { date: string; total?: number; records: RecordItem[] }[] = [];
 
       //自己想的，逻辑有待优化
@@ -72,7 +68,9 @@
       const {recordList} = this;
 
       //收入支出的克隆与排序
-      const newRecordList = clone(recordList).filter(r => r.type === this.type).sort((a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf());
+      const newRecordList = clone(recordList)
+        .filter(r => r.type === this.type)
+        .sort((a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf());
 
       return this.classifyRecord(newRecordList);
 
@@ -80,8 +78,6 @@
 
 
     type = '-';
-    interval = 'day';
-    intervalList = intervalList;
     recordTypeList = recordTypeList;
 
     beforeCreate() {
@@ -127,10 +123,11 @@
 <style lang="scss" scoped>
   ::v-deep {
     .type-tab-item {
-      background: white;
+      background: #c4c4c4;
+      height: 50px;
 
       &.selected {
-        background: #c4c4c4;
+        background: white;
 
         &::after {
           display: none;
@@ -164,6 +161,19 @@
       margin-left: 16px;
       color: #999;
       font-size: 14px;
+    }
+  }
+  .content-wrapper {
+    display: flex;
+    height: 92vh;
+    flex-direction: column;
+  }
+  .dataList {
+    overflow: auto;
+    flex-grow: 1;
+    >.tips {
+      margin-top: 20px;
+      text-align: center;
     }
   }
 

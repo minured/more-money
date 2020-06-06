@@ -30,6 +30,7 @@
     //使得内容尽可能占据更多的位置
     overflow: auto;
 
-    flex-grow: 1;
+    /*flex-grow: 1;*/
+    height: 92vh;
   }
 </style>

@@ -32,7 +32,7 @@
     }
   })
   export default class Money extends Vue {
-    recordTypeList = recordTypeList
+    recordTypeList = recordTypeList;
     record: RecordItem = {
       selectedTags: [],
       notes: '',
@@ -41,7 +41,7 @@
       date: new Date().toISOString()
     };
 
-    created() {
+    beforeCreate() {
       this.$store.commit('fetchRecordList');
     }
 
@@ -49,6 +49,9 @@
     saveRecord() {
       // oldStore.recordListModel.create(this.record);
       this.$store.commit('createRecord', this.record);
+      this.record.notes = '';
+      this.record.selectedTags = [];
+
     }
   }
 
@@ -63,7 +66,9 @@
 
   .notes {
     padding: 12px 0;
+    /*height: 8vh;*/
   }
+
 </style>
 <style lang="scss" scoped>
 

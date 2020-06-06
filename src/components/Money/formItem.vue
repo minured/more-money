@@ -2,7 +2,8 @@
   <label class="formItem">
     <span class="name">{{fieldName}}</span>
     <!--    这里老师用的是input事件-->
-    <input v-model="value" type="text" :placeholder="placeholder">
+    <input :value="notes" type="text" :placeholder="placeholder"
+            @input="onNotesChange($event.target.value)">
   </label>
 </template>
 
@@ -16,12 +17,9 @@
     @Prop(String) fieldName!: string;
     @Prop(String) placeholder?: string;
 
-    value = this.notes;
-    //  使用watch监听value的变化
-    //  immediate false  第一次不要触发
-    @Watch('value', {immediate: false})
-    onValueChange() {
-      this.$emit('update:notes', this.value);
+    //用@input来触发
+    onNotesChange(notes: string) {
+      this.$emit('update:notes', notes);
     }
   }
 </script>

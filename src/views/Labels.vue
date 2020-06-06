@@ -71,7 +71,7 @@
 
   .tags-wrapper {
     /*border: 1px solid black;*/
-    height: 80vh;
+    height: 82vh;
     overflow: auto;
 
     > .tags {
@@ -98,11 +98,13 @@
     }
   }
 
-
   .createTag {
+    height: 8vh;
+    /*border:1px solid red;*/
     text-align: center;
-    padding-top: 1vh;
+    padding: 1vh;
     margin-top: 1vh;
+
   }
 
 </style>

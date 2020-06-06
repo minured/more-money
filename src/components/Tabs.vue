@@ -37,6 +37,7 @@
 <style lang="scss" scoped>
   .tabs {
     background-color: #c4c4c4;
+
     display: flex;
     font-size: 24px;
     /*& 代表上层的 选择器,这里就是 .tabs,合起来 .tabs-item*/

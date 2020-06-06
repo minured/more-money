@@ -1,6 +1,5 @@
 <template>
   <Layout>
-    {{temModifyName}}
     <div class="navBar">
       <Icon icon-id="#left" @click.native="goBack"/>
       <span>编辑标签</span>

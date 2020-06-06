@@ -13,7 +13,7 @@
   export default class App extends Vue{
     //版本判断与升级
     //TODO
-    beforeCreate(){
+    mounted(){
       const version = window.localStorage.getItem('version') || 0;
       console.log(version)
       if (version === '0.0.1') {

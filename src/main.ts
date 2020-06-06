@@ -16,7 +16,7 @@ Vue.config.productionTip = false;
 Vue.component('Nav', Nav);
 Vue.component('Layout', Layout);
 
-
+// window.alert("微信测试")
 
 new Vue({
   //初始化router，router:router
@@ -24,3 +24,10 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app');
+
+
+window.onload = function() {
+  setTimeout(function(){
+    window.scrollTo(0, 200)
+  }, 0)
+}

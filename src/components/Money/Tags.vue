@@ -5,7 +5,7 @@
     </div>
     <ul class="current">
       <li v-for="(tag, index) in tagList" :key="index"
-          :class="{selected: selectedTags_.indexOf(tag) >= 0}"
+          :class="{selected: selectedTags.indexOf(tag) >= 0}"
           @click="toggle(tag)">{{tag.name}}
       </li>
 
@@ -17,11 +17,12 @@
 <script lang="ts">
   import Vue from 'vue';
   import {Component, Prop} from 'vue-property-decorator';
+  import tagList from '@/store/tagList';
 
   @Component({
-    computed:{
-      tagList(){
-        return this.$store.state.tagList
+    computed: {
+      tagList() {
+        return this.$store.state.tagList;
       }
     }
   })
@@ -30,26 +31,27 @@
     @Prop(Array) readonly selectedTags!: string[];
 
     //为了避免直接修改props， selectedTags_是本地化的数据
-    selectedTags_ = this.selectedTags;
+    // selectedTags_ = this.selectedTags;
 
-    created(){
-      this.$store.commit('fetchTagList')
+    beforeCreate() {
+      this.$store.commit('fetchTagList');
     }
+
     addTag() {
       // const message: ErrorTip = oldStore.tagListModel.create();
-      this.$store.commit('createTag')
+      this.$store.commit('createTag');
     }
 
 
     toggle(tag: string) {
-      const index = this.selectedTags_.indexOf(tag);
+      const index = this.selectedTags.indexOf(tag);
       if (index === -1) {
-        this.selectedTags_.push(tag);
+        this.selectedTags.push(tag);
       } else {
-        this.selectedTags_.splice(index, 1);
+        this.selectedTags.splice(index, 1);
       }
       //  触发更新选择标签
-      this.$emit('update:selectedTags', this.selectedTags_);
+      this.$emit('update:selectedTags', this.selectedTags);
     }
 
   }
@@ -57,45 +59,51 @@
 
 <style lang="scss" scoped>
   .tags {
+    /*border:1px solid green;*/
     background: white;
-    padding: 10px;
+    padding: 5px 10px;
     font-size: 14px;
     /*border: 1px solid black;*/
     flex-grow: 1;
     display: flex;
+    overflow: auto;
     flex-direction: column-reverse;
 
-
     > .current {
+      /*border:1px solid black;*/
       /*border: 1px solid black;*/
+      /*display: flex;*/
       display: flex;
+      padding-top: 5px;
       flex-wrap: wrap;
       overflow: auto;
-      height: 25vh;
-      padding-left: 10px;
+      /*height: 30vh;*/
+      flex-grow: 1;
+      /*padding-left: 10px;*/
+      justify-content: left;
+      align-content: center;
 
       > li {
-        /*border: 1px solid black;*/
+
+        /*border: 1px solid green;*/
         /*display: block;*/
         margin-right: 16px;
         margin-bottom: 12px;
-        height: 24px;
-        line-height: 24px;
-        padding: 0 16px;
+        height: 26px;
+        line-height: 26px;
+        padding: 0 14px;
         border-radius: 12px;
-        text-align: center;
         background-color: #d9d9d9;
-
         &.selected {
           background: orange;;
         }
       }
 
     }
-
     > .new {
-      padding-top: 16px;
 
+      padding-top: 10px;
+      /*border: 1px solid black;*/
       button {
         background-color: transparent;
         border: none;
@@ -104,9 +112,9 @@
         color: #999;
         /*边框超出字体*/
         padding: 0 4px;
-
-
       }
     }
+
+
   }
 </style>
