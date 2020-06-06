@@ -31,3 +31,19 @@ window.onload = function() {
     window.scrollTo(0, 200)
   }, 0)
 }
+
+// if (document.documentElement.clientWidth > 500) {
+//
+//
+//   const img = document.createElement('img')
+//   img.src = '/img/qrcode.png'
+//
+//   const tips = document.createElement('p')
+//   tips.innerText = "请使用手机打开，以保证浏览效果"
+//
+//   const content = document.createElement('div')
+//   content.className = "qrcode-wrapper"
+//   content.appendChild(img)
+//   content.appendChild(tips)
+//   document.body.appendChild(content)
+// }
