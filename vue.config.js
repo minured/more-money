@@ -2,6 +2,11 @@
 const path = require('path')
 
 module.exports = {
+
+  publicPath: process.env.NODE_ENV === 'production'
+    ? '/morney/'
+    : '/',
+
   lintOnSave: false,
 
 
@@ -21,10 +26,10 @@ module.exports = {
       //使用的loader, extract:false  不要抽出文件
       .use('svg-sprite-loader').loader('svg-sprite-loader').options({extract: false}).end()
 
-      //svg优化loader
-      // .use('svgo-loader').loader('svgo-loader')
-      //删除fill属性
-      // .tap(options => ({...options, plugins: [{removeAttrs: {attrs: 'fill'}}]})).end()
+    //svg优化loader
+    // .use('svgo-loader').loader('svgo-loader')
+    //删除fill属性
+    // .tap(options => ({...options, plugins: [{removeAttrs: {attrs: 'fill'}}]})).end()
 
     //还要添加一个插件 文档说的
     config.plugin('svg-sprite').use(require('svg-sprite-loader/plugin'), [{plainSprite: true}])
