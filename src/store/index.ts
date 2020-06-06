@@ -67,7 +67,6 @@ const store = new Vuex.Store({
         const tagNames: string[] = state.tagList.map(tag => tag.name);
 
         if (tagNames.indexOf(inputTag) === -1) {
-          window.alert(inputTag)
           state.tagList.push({id: idManager.create(), name: inputTag});
           //改变就保存
           store.commit('saveTagList');
