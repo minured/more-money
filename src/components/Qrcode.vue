@@ -15,7 +15,7 @@
 
   @Component
   export default class Qrcode extends Vue {
-    qrcodeUrl = require('@/assets/qrcode.png');
+    qrcodeUrl = require('@/assets/qrcode-gitee.png');
   }
 
 </script>
