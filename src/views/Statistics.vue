@@ -1,22 +1,23 @@
 <template>
   <Layout>
     <div class="content-wrapper">
-    <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
-    <div class="dataList">
-      <div v-if="!result" class="tips">暂无数据</div>
-      <ol>
-        <li v-for="(dateList, i) in result" :key="i">
-          <h3 class="title">{{beautifyDate(dateList.date)}} <span>￥{{dateList.total}}</span></h3>
-          <ol>
-            <li v-for="(record, i) in dateList.records" :key="i" class="record">
-              <span>{{tags2String(record.selectedTags)}}</span>
-              <span class="notes">{{beautifyNotes(record.notes)}}</span>
-              <span>￥{{record.amount}}</span>
-            </li>
-          </ol>
-        </li>
-      </ol>
-    </div>
+      <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
+      <div class="dataList">
+        <div v-if="!result" class="tips">暂无数据</div>
+        <ol>
+          <li v-for="(dateList, i) in result" :key="i">
+            <h3 class="title">{{beautifyDate(dateList.date)}} <span>￥{{dateList.total}}</span></h3>
+            <ol>
+              <li v-for="(record, i) in dateList.records" :key="i" class="record">
+                <span>{{tags2String(record.selectedTags)}}</span>
+                <span class="notes">{{beautifyNotes(record.notes)}}</span>
+                <span>￥{{record.amount}}</span>
+              </li>
+            </ol>
+          </li>
+        </ol>
+      </div>
+      <RecordECharts :chart-option="chartOption"/>
     </div>
   </Layout>
 </template>
@@ -28,16 +29,41 @@
   import recordTypeList from '@/constants/recordTypeList';
   import dayjs from 'dayjs';
   import clone from '@/lib/clone';
+  import RecordECharts from '@/components/Money/RecordECharts.vue';
 
   @Component({
-    components: {Tabs}
+    components: {RecordECharts, Tabs}
   })
   export default class Statistics extends Vue {
+    recordDate:string[] = [];
+    dayTotalAmount:number[] = [];
 
+    chartOption = {
+      tooltip: {
+        show: true
+      },
+      legend: {
+        data: ['每天花费']
+      },
+      xAxis: {
+        data: this.recordDate
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [{
+        name: '每天花费',
+        data: this.dayTotalAmount,
+        type: 'line',
+        itemStyle: {
+          borderWidth: 5
+        },
+      }]
+    };
 
     classifyRecord(records: RecordItem[]) {
 
-      if (records.length === 0) {return false}
+      if (records.length === 0) {return false;}
       const recordDateList: { date: string; total?: number; records: RecordItem[] }[] = [];
 
       //自己想的，逻辑有待优化
@@ -76,12 +102,29 @@
 
     }
 
+    //遍历记录，把数组push到chart option
+    created() {
+      console.log(this.result);
+      if (!this.result) {return;}
+
+      const newResult = clone(this.result).reverse()
+
+      newResult.forEach(item => {
+        this.recordDate.push(item.date);
+        if(!item.total){return}
+        this.dayTotalAmount.push(item.total);
+      });
+    }
+
 
     type = '-';
     recordTypeList = recordTypeList;
 
     beforeCreate() {
       this.$store.commit('fetchRecordList');
+
+      //  fetch一下，初始化tagList,后续在App全局fetch
+      this.$store.commit('fetchTagList');
     }
 
 
@@ -163,15 +206,18 @@
       font-size: 14px;
     }
   }
+
   .content-wrapper {
     display: flex;
     height: 92vh;
     flex-direction: column;
   }
+
   .dataList {
     overflow: auto;
     flex-grow: 1;
-    >.tips {
+
+    > .tips {
       margin-top: 20px;
       text-align: center;
     }
