@@ -1,7 +1,7 @@
 //ts声明一个类型
 type RecordItem = {
   //加个问号，表示这个key可以不存在
-  selectedTags?: string[];
+  selectedTags?: Tag[];
   notes: string;
   type: string;
   amount: number;

@@ -1,5 +1,4 @@
 import clone from '@/lib/clone';
-
 const recordList: RecordList = {
   //属性使用强制断言，避免两个冒号
   data: [] as RecordItem[],
@@ -10,6 +9,7 @@ const recordList: RecordList = {
   create(record: RecordItem){
     const recordClone: RecordItem = clone(record)
     recordClone.date = new Date().toISOString()
+
     this.data.push(recordClone)
   //外面使用watch 自动保存，这样好不好
     this.save()

@@ -9,7 +9,6 @@
     </div>
     <Tags :selectedTags.sync="record.selectedTags"/>
   </Layout>
-
 </template>
 
 <script lang="ts">
@@ -47,11 +46,10 @@
 
     //ok按钮
     saveRecord() {
-      // oldStore.recordListModel.create(this.record);
+
       this.$store.commit('createRecord', this.record);
       this.record.notes = '';
       this.record.selectedTags = [];
-
     }
   }
 

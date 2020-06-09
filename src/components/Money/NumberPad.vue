@@ -14,7 +14,7 @@
       <button @click="inputContent">7</button>
       <button @click="inputContent">8</button>
       <button @click="inputContent">9</button>
-      <button @click="ok" class="ok">OK</button>
+      <button @click="ok" class="ok" type="button">OK</button>
       <button @click="inputContent" class="zero">0</button>
       <button @click="inputContent">.</button>
     </div>
@@ -23,7 +23,7 @@
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component, Prop} from 'vue-property-decorator';
+  import {Component, Prop, Watch} from 'vue-property-decorator';
 
   @Component
   export default class NumberPad extends Vue {
@@ -64,28 +64,31 @@
     }
 
     remove() {
-      if (this.output.length === 0) {
+      if (this.output.length === 1) {
         this.output = '0';
+      } else {
+        this.output = this.output.substring(0, this.output.length - 1);
       }
-      this.output = this.output.substring(0, this.output.length - 1);
+
     }
 
     clear() {
       this.output = '0';
     }
 
+    @Watch("output")
+    onOutputChange(){
+      this.$emit('update:amount', parseFloat(this.output));
+    }
+
+
     ok() {
       if (this.output === '0') {
         return;
       }
-      // this.$emit('updateAmount', this.amount);
-      this.$emit('update:amount', parseFloat(this.output));
-
       //触发保存事件
       this.$emit("submit")
       this.output = '0';
-
-
     }
 
   }

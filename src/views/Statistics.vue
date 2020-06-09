@@ -24,7 +24,7 @@
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component} from 'vue-property-decorator';
+  import {Component, Watch} from 'vue-property-decorator';
   import Tabs from '@/components/Tabs.vue';
   import recordTypeList from '@/constants/recordTypeList';
   import dayjs from 'dayjs';
@@ -35,31 +35,10 @@
     components: {RecordECharts, Tabs}
   })
   export default class Statistics extends Vue {
-    recordDate:string[] = [];
-    dayTotalAmount:number[] = [];
+    recordDate: string[] = [];
+    dayTotalAmount: number[] = [];
+    dataType = '支出';
 
-    chartOption = {
-      tooltip: {
-        show: true
-      },
-      legend: {
-        data: ['每天花费']
-      },
-      xAxis: {
-        data: this.recordDate
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [{
-        name: '每天花费',
-        data: this.dayTotalAmount,
-        type: 'line',
-        itemStyle: {
-          borderWidth: 5
-        },
-      }]
-    };
 
     classifyRecord(records: RecordItem[]) {
 
@@ -68,7 +47,9 @@
 
       //自己想的，逻辑有待优化
       records.forEach(record => {
-        const date = record.date!.split('T')[0];
+        // const date = record.date!.split('T')[0];
+        const date = record.date!
+        console.log(record.date)
         const dateList = recordDateList.map(item => item.date);
         //不存对应日期的独享，就构建新对象 push进去
         const index = dateList.indexOf(date);
@@ -102,18 +83,65 @@
 
     }
 
-    //遍历记录，把数组push到chart option
-    created() {
-      console.log(this.result);
-      if (!this.result) {return;}
+    get chartOption() {
+      return {
+        tooltip: {
+          show: true
+        },
+        legend: {
+          data: []
+        },
+        xAxis: {
+          data: this.recordDate
+        },
+        yAxis: {
+          type: 'value'
+        },
+        series: [{
+          name: this.dataType,
+          data: this.dayTotalAmount,
+          type: 'line',
+          itemStyle: {
+            borderWidth: 3,
+            borderType : 'solid',
+            color: 'orange'
+          },
+          lineStyle: {
+            color: 'orange'
+          }
+        }]
+      };
+    }
 
-      const newResult = clone(this.result).reverse()
+    updateChartOption() {
+
+      if (!this.result) {return;}
+      const newResult = clone(this.result).reverse();
 
       newResult.forEach(item => {
         this.recordDate.push(item.date);
-        if(!item.total){return}
+        if (!item.total) {return;}
         this.dayTotalAmount.push(item.total);
       });
+
+      if (this.type === '-') {
+        this.dataType = '支出';
+      } else {
+        this.dataType = '收入';
+      }
+    }
+
+    //遍历记录，把数组push到chart option
+    created() {
+      //创建的时候，肯定是空的
+      this.updateChartOption();
+    }
+
+    beforeUpdate() {
+      //更新代表切换了tab，清空当前数据
+      this.recordDate = [];
+      this.dayTotalAmount = [];
+      this.updateChartOption();
     }
 
 
@@ -130,7 +158,7 @@
 
     tags2String(tags: Tag[]) {
       //TODO 限制显示长度
-      return tags.length === 0 ? '无' : tags.map(tag => tag.name).toString();
+      return tags.length === 0 ? '随手记' : tags.map(tag => tag.name).toString();
 
     }
 
@@ -166,11 +194,11 @@
 <style lang="scss" scoped>
   ::v-deep {
     .type-tab-item {
-      background: #c4c4c4;
+      background: white;
       height: 50px;
 
       &.selected {
-        background: white;
+        background: #c4c4c4;
 
         &::after {
           display: none;

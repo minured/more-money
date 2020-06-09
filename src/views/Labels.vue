@@ -10,7 +10,7 @@
     </div>
     <div class="createTag">
       <!-- 组件是没有点击事件的， 然后native是把事件传给 组件里的默认元素 button -->
-      <Button @click.native="createTag">新建标签</Button>
+      <Button @click.native="createTag" class="create-btn">新建标签</Button>
     </div>
 
   </Layout>
@@ -104,6 +104,9 @@
     text-align: center;
     padding: 1vh;
     margin-top: 1vh;
+    > .create-btn {
+      /*background: orange;*/
+    }
 
   }
 

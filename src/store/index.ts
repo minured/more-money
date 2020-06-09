@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import clone from '@/lib/clone';
 import idManager from '@/lib/idCreator';
+import dayjs from 'dayjs';
 
 //把store挂到Vue.prototype上，  this.$oldStore， store在main.ts传给Vue，可以在template使用$store
 Vue.use(Vuex);
@@ -23,7 +24,11 @@ const store = new Vuex.Store({
     },
     createRecord(state, record: RecordItem) {
       const recordClone: RecordItem = clone(record);
-      recordClone.date = new Date().toISOString();
+      // recordClone.date = new Date().toISOString();
+
+      recordClone.date = dayjs().format('YYYY-M-D')
+
+
       state.recordList.push(recordClone);
       console.log(state.recordList);
       //  这里可以直接commit
