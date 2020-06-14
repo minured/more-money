@@ -46,7 +46,6 @@
 
     //ok按钮
     saveRecord() {
-
       this.$store.commit('createRecord', this.record);
       this.record.notes = '';
       this.record.selectedTags = [];

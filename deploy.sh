@@ -20,7 +20,7 @@ git commit -m 'deploy'
 # git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master
 
 # 部署到 https://<USERNAME>.github.io/<REPO>
- git push git@github.com:minured/morney.git master:gh-pages
+git push -f git@github.com:minured/morney.git master:gh-pages
 # -f 强制推送
 # git push -f git@github.com:minured/morney.git master:gh-pages
 

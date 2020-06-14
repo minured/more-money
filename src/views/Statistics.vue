@@ -49,7 +49,6 @@
       records.forEach(record => {
         // const date = record.date!.split('T')[0];
         const date = record.date!
-        console.log(record.date)
         const dateList = recordDateList.map(item => item.date);
         //不存对应日期的独享，就构建新对象 push进去
         const index = dateList.indexOf(date);
